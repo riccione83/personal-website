@@ -1,0 +1,56 @@
+// TODO Add a couple lines about each project
+const data = [
+  {
+    title: "La Sicurezza Informatica",
+    subtitle: "2017 Amazon",
+    link: "https://www.amazon.co.uk/Sicurezza-Informatica-Riccardo/dp/8826491836/ref=sr_1_1?crid=LC5BKRYYZ2ZQ&keywords=riccardo+rizzo&qid=1697874527&sprefix=riccardo+rizzo%2Caps%2C70&sr=8-1",
+    image: "https://m.media-amazon.com/images/I/41yzrRyk1cL._SY522_.jpg",
+    date: "2017-25-10",
+    desc: "This book offers insights and reflections to help the reader embark on a career in one of the most important fields of the 21st century. Topics related to information security are covered, starting from IT security up to the security of code and mobile devices. No particular experience or training is necessary as this book will provide you with an excellent basis from which to start. Various topics will be covered such as protection from hacker attacks, describing how a hacker thinks and how to fight them by learning about them. We will then move on to the analysis of the most famous modern encryption algorithms (including RSA). The components for network protection will be analysed, we will talk about protection systems and equipment such as firewalls, radius servers, VPN networks, etc. Some fundamental factors on code security analysis will then be analyzed. A mine of information for those who are experts or want to try their hand at writing secure code. We will talk about how software protections are bypassed, such as buffer overflow attacks and code injection methods. We will also talk about security in the mobile sector. The most popular operating systems in the world (iOS and Android) will be analyzed, trying to understand how these systems protect people's information and digital lives.",
+  },
+  {
+    title: "Intelligenza Artificiale",
+    subtitle: "2017 Amazon",
+    link: "https://devpost.com/software/harvest",
+    image: "https://m.media-amazon.com/images/I/51WM7tU03qL._SY522_.jpg",
+    date: "2017-11-04",
+    desc: "Processing information has become a compelling challenge for the contemporary world where knowledge has become a fundamental part of our lives. Artificial intelligence studies have made great strides and in recent years have played an increasingly important role in our lives. This book tries to clarify the current situation and explains, trying to avoid complicated mathematics, how this modern wonder works. Some practical examples will be analyzed to understand even those who do not know the subject the operating principles of the various levels up to analyzing a real artificial intelligence project applied to autonomous driving. Reading the book is also recommended for those who do not have the IT and mathematical foundations on the theory of machine learning. Topics covered: artificial intelligence perspectives, research priorities, Bayesian classifiers, linear classifiers, svm classifiers, softmax classifiers, neural networks, convolution neural networks, practical examples of neural networks, big data.",
+  },
+  {
+    title: "Easy use of realm in swift",
+    subtitle: "Medium.com",
+    link: "http://bit.ly/2v2ocXp",
+    image:
+      "https://miro.medium.com/v2/resize:fit:1400/1*fSGayL9fUzK5hdhg5r7Nxw.jpeg",
+    date: "2017-07-15",
+    desc: "Tutorial on how to implement a high speed and robust support for persistent data in a mobile application",
+  },
+  {
+    title: "Swift Extension",
+    subtitle: "Medium.com",
+    link: "http://bit.ly/2trpWct",
+    image:
+      "https://miro.medium.com/v2/resize:fit:300/1*QJDPy8b4NnzYKvjs9Jh0lA.jpeg",
+    date: "2017-07-15",
+    desc: "Tutorial about Swift extensions",
+  },
+  {
+    title: "iOS Protocols",
+    subtitle: "Medium.com",
+    link: "http://bit.ly/2tswO9w",
+    image:
+      "https://miro.medium.com/v2/resize:fit:300/1*QJDPy8b4NnzYKvjs9Jh0lA.jpeg",
+    date: "2017-07-15",
+    desc: "Tutorial about iOS protocols",
+  },
+  {
+    title: "Blogs about React and typescript",
+    subtitle: "machinemax.com",
+    link: "https://machinemax.com/pages/blog",
+    image: "https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg",
+    date: "2018",
+    desc: "Various articles about React & Typescript",
+  },
+];
+
+export default data;
