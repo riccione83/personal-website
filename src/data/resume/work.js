@@ -34,7 +34,7 @@ const work = [
     position: "Engineering Manager",
     url: "https://www.machinemax.com",
     startDate: "2018-09-01",
-    endDate: "2024-30-04",
+    endDate: "2024-04-01",
     summary: `MachineMax offers a unique and innovative solution that helps businesses manage their heavy equipment more efficiently. The solution combines IoT sensors, machine learning algorithms, and a cloud-based platform to provide real-time insights into machine utilisation, maintenance, and performance. With MachineMax, businesses can reduce downtime, optimise fuel consumption, and minimise the risk of breakdowns.`,
     highlights: [
       "Drove innovation and growth as a key contributor to the React web application, overseeing codebase maintenance and implementing numerous feature enhancements utilizing the latest React framework advancements.",
