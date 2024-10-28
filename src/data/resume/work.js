@@ -13,10 +13,28 @@
  */
 const work = [
   {
+    name: "Togather",
+    position: "Technical Lead",
+    url: "https://www.togather.com",
+    startDate: "2024-05-01",
+    summary: `Togather provides a cutting-edge platform that revolutionizes the way people connect and collaborate for events. Combining advanced technology with user-friendly design, Togather streamlines the planning process, enabling users to easily organize and promote events while fostering meaningful connections. The platform enhances community engagement and supports a diverse range of gatherings, from intimate meetups to large conferences, making event planning accessible and efficient for all.`,
+    highlights: [
+      "As a Tech Lead, spearheaded the development and optimization of the Togather platform, collaborating with cross-functional teams to ensure a seamless user experience.",
+      "Drove team growth and development, fostering a culture of innovation and collaboration while expanding the engineering team to meet the demands of a rapidly growing user base.",
+      "Played a pivotal role in the recruitment and onboarding process, selecting top talent to enhance the technical capabilities and strategic direction of the team.",
+      "Engaged in product development, providing technical insights that shaped the design and implementation of features tailored to user needs.",
+      "Committed to mentoring and supporting team members, encouraging continuous learning and professional development to advance their skills and careers.",
+      "Maintained a hands-on leadership approach, actively participating in software development and technical decision-making to uphold high standards within the team.",
+      "This updated description showcases your leadership role at Togather, presenting a compelling narrative that highlights your impact in the tech industry.",
+      "Led the implementation of new features that drive user engagement and streamline event management processes, leveraging the latest technologies to foster innovation.",
+    ],
+  },
+  {
     name: "MachineMax Ltd",
     position: "Engineering Manager",
     url: "https://www.machinemax.com",
     startDate: "2018-09-01",
+    endDate: "2024-30-04",
     summary: `MachineMax offers a unique and innovative solution that helps businesses manage their heavy equipment more efficiently. The solution combines IoT sensors, machine learning algorithms, and a cloud-based platform to provide real-time insights into machine utilisation, maintenance, and performance. With MachineMax, businesses can reduce downtime, optimise fuel consumption, and minimise the risk of breakdowns.`,
     highlights: [
       "Drove innovation and growth as a key contributor to the React web application, overseeing codebase maintenance and implementing numerous feature enhancements utilizing the latest React framework advancements.",
