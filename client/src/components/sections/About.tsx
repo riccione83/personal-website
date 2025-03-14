@@ -23,15 +23,16 @@ export function About() {
             className="text-center md:text-left"
           >
             <p className="text-lg text-muted-foreground mb-6">
-              I'm a software engineer with over 5 years of experience in
-              building modern web applications. I specialise in creating
-              scalable solutions using cutting-edge technologies.
+              I'm a software engineer passionate about building modern web
+              applications and innovative solutions. I specialise in creating
+              scalable, efficient systems using cutting-edge technologies.
             </p>
             <p className="text-lg text-muted-foreground mb-6">
-              My journey in technology started at the University of Milan, where
-              I graduated in Computer Science. Since then, I've worked with
-              various startups and enterprises, helping them build robust and
-              efficient systems.
+              My journey in technology began at the age of 8 when I wrote my
+              first lines of code. This early passion for programming has
+              evolved into a lifelong pursuit of technical excellence. Since
+              then, I've worked with various startups and enterprises, helping
+              them build robust and efficient systems.
             </p>
           </motion.div>
           <motion.div

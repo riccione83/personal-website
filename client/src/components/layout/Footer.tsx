@@ -1,5 +1,12 @@
 import { FaGithub, FaLinkedin, FaTwitter } from "react-icons/fa";
 
+// Use the same social links as in the Contact component
+const socialLinks = {
+  github: "https://github.com/riccione83",
+  linkedin: "https://www.linkedin.com/in/rikyrizzo/",
+  twitter: "https://x.com/riccione83",
+};
+
 export function Footer() {
   return (
     <footer className="bg-muted/30 py-8">
@@ -10,7 +17,7 @@ export function Footer() {
           </p>
           <div className="flex space-x-6 mt-4 md:mt-0">
             <a
-              href="https://github.com/yourusername"
+              href={socialLinks.github}
               target="_blank"
               rel="noopener noreferrer"
               className="text-muted-foreground hover:text-foreground transition-colors"
@@ -18,7 +25,7 @@ export function Footer() {
               <FaGithub className="h-5 w-5" />
             </a>
             <a
-              href="https://linkedin.com/in/yourusername"
+              href={socialLinks.linkedin}
               target="_blank"
               rel="noopener noreferrer"
               className="text-muted-foreground hover:text-foreground transition-colors"
@@ -26,7 +33,7 @@ export function Footer() {
               <FaLinkedin className="h-5 w-5" />
             </a>
             <a
-              href="https://twitter.com/yourusername"
+              href={socialLinks.twitter}
               target="_blank"
               rel="noopener noreferrer"
               className="text-muted-foreground hover:text-foreground transition-colors"

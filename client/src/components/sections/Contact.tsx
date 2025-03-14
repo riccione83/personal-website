@@ -6,17 +6,10 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  FaGithub,
-  FaLinkedin,
-  FaFacebook,
-  FaTwitter,
-  FaEnvelope,
-} from "react-icons/fa";
+import { FaGithub, FaLinkedin, FaFacebook, FaTwitter } from "react-icons/fa";
 
 // Replace these with your actual social media links
 const socialLinks = {
-  email: "mailto:rizzo.riccardo.83@gmail.com",
   github: "https://github.com/riccione83",
   linkedin: "https://www.linkedin.com/in/rikyrizzo/",
   twitter: "https://x.com/riccione83",
@@ -47,35 +40,28 @@ export function Contact() {
             <div className="grid gap-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <SocialLink
-                  icon={<FaEnvelope className="h-5 w-5" />}
-                  label="Email"
-                  href={socialLinks.email}
-                  delay={0.1}
-                />
-                <SocialLink
                   icon={<FaGithub className="h-5 w-5" />}
                   label="GitHub"
                   href={socialLinks.github}
-                  delay={0.2}
+                  delay={0.1}
                 />
                 <SocialLink
                   icon={<FaLinkedin className="h-5 w-5" />}
                   label="LinkedIn"
                   href={socialLinks.linkedin}
-                  delay={0.3}
+                  delay={0.2}
                 />
                 <SocialLink
                   icon={<FaTwitter className="h-5 w-5" />}
                   label="Twitter/X"
                   href={socialLinks.twitter}
-                  delay={0.4}
+                  delay={0.3}
                 />
                 <SocialLink
                   icon={<FaFacebook className="h-5 w-5" />}
                   label="Facebook"
                   href={socialLinks.facebook}
-                  delay={0.5}
-                  className="md:col-span-2"
+                  delay={0.4}
                 />
               </div>
 

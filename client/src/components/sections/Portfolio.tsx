@@ -129,6 +129,9 @@ export function Portfolio() {
                           src={publication.image}
                           alt={publication.title}
                           className="w-full h-full object-cover"
+                          loading="lazy"
+                          width="200"
+                          height="300"
                         />
                       </motion.div>
                       <div className="p-6">
@@ -193,6 +196,9 @@ export function Portfolio() {
                         src={publication.image}
                         alt={publication.title}
                         className="w-full h-48 object-cover"
+                        loading="lazy"
+                        width="400"
+                        height="192"
                       />
                     </motion.div>
                     <CardHeader>
