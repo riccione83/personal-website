@@ -24,7 +24,7 @@ export function About() {
           >
             <p className="text-lg text-muted-foreground mb-6">
               I'm a software engineer with over 5 years of experience in
-              building modern web applications. I specialize in creating
+              building modern web applications. I specialise in creating
               scalable solutions using cutting-edge technologies.
             </p>
             <p className="text-lg text-muted-foreground mb-6">
@@ -48,7 +48,7 @@ export function About() {
                 <ul className="space-y-2 text-muted-foreground">
                   <li>• Full-stack development with modern frameworks</li>
                   <li>• Cloud architecture and deployment</li>
-                  <li>• Performance optimization and scaling</li>
+                  <li>• Performance optimisation and scaling</li>
                   <li>• Team leadership and mentoring</li>
                 </ul>
               </CardContent>

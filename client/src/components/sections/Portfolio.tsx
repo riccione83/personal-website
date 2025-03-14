@@ -35,7 +35,7 @@ const publications = [
     image:
       "https://miro.medium.com/v2/resize:fit:1400/1*fSGayL9fUzK5hdhg5r7Nxw.jpeg",
     date: "2017-07-15",
-    desc: "Tutorial on how to implement a high speed and robust support for persistent data in a mobile application",
+    desc: "Tutorial on how to implement a high-speed and robust support for persistent data in a mobile application",
     type: "article",
   },
   {

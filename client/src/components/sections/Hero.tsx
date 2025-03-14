@@ -58,7 +58,7 @@ const BackgroundPattern = () => {
 export function Hero() {
   const [text, setText] = useState("");
   const fullText =
-    "A passionate software engineer specializing in web development and cloud architecture";
+    "A passionate software engineer specialising in web development and cloud architecture";
   const { scrollY } = useScroll();
 
   const y = useTransform(scrollY, [0, 500], [0, 200]);

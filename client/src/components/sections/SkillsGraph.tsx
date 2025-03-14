@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo } from "react";
 import { motion } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
 
@@ -72,8 +72,8 @@ const CompetencyBar = ({ level }: { level: number }) => (
     {[1, 2, 3, 4, 5].map((i) => (
       <div
         key={i}
-        className={`h-3 w-6 rounded-sm ${
-          i <= level ? 'bg-primary' : 'bg-muted'
+        className={`h-3 w-6 md:w-8 rounded-sm ${
+          i <= level ? "bg-primary" : "bg-muted"
         }`}
       />
     ))}
@@ -85,14 +85,15 @@ export function SkillsGraph() {
 
   const filteredSkills = useMemo(() => {
     if (selectedCategory === "ALL") return skills;
-    return skills.filter(skill => skill.category.includes(selectedCategory));
+    return skills.filter((skill) => skill.category.includes(selectedCategory));
   }, [selectedCategory]);
 
   return (
     <div className="space-y-8">
       <div className="text-center space-y-2">
         <p className="text-sm text-muted-foreground italic">
-          Note: I think these sections are silly, but everyone seems to have one. Here is a "mostly" honest overview of my skills.
+          Note: I think these sections are silly, but everyone seems to have
+          one. Here is a "mostly" honest overview of my skills.
         </p>
       </div>
 
@@ -110,7 +111,7 @@ export function SkillsGraph() {
         >
           ALL
         </motion.button>
-        {categories.map(category => (
+        {categories.map((category) => (
           <motion.button
             key={category}
             onClick={() => setSelectedCategory(category)}
@@ -129,10 +130,7 @@ export function SkillsGraph() {
 
       <Card>
         <CardContent className="p-6">
-          <motion.div
-            layout
-            className="grid gap-4"
-          >
+          <motion.div layout className="grid gap-4">
             {filteredSkills.map((skill, index) => (
               <motion.div
                 key={skill.title}
@@ -140,12 +138,18 @@ export function SkillsGraph() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
-                className="flex items-center justify-between gap-4"
+                className="grid grid-cols-1 sm:grid-cols-[250px,1fr] md:grid-cols-[300px,1fr] gap-2 sm:gap-6 items-center"
               >
-                <div className="w-48 font-medium">{skill.title}</div>
-                <CompetencyBar level={skill.competency} />
-                <div className="text-sm text-muted-foreground">
-                  {skill.competency}/5
+                <div className="font-medium break-words pr-2">
+                  {skill.title}
+                </div>
+                <div className="flex items-center justify-between gap-4">
+                  <div className="flex-grow max-w-[300px] md:max-w-[400px]">
+                    <CompetencyBar level={skill.competency} />
+                  </div>
+                  <div className="text-sm text-muted-foreground whitespace-nowrap min-w-[30px] text-right">
+                    {skill.competency}/5
+                  </div>
                 </div>
               </motion.div>
             ))}
