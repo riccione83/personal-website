@@ -1,0 +1,137 @@
+const skills = [
+  {
+    title: "Javascript",
+    competency: 4,
+    category: ["Web Development", "Languages", "Javascript"],
+  },
+  {
+    title: "Node.JS",
+    competency: 5,
+    category: ["Web Development", "Javascript"],
+  },
+  {
+    title: "React",
+    competency: 2,
+    category: ["Web Development", "Javascript"],
+  },
+  {
+    title: "Typescript",
+    competency: 5,
+    category: ["Web Development", "Languages", "Javascript"],
+  },
+  {
+    title: "Bash",
+    competency: 2,
+    category: ["Tools", "Languages"],
+  },
+  {
+    title: "Amazon Web Services",
+    competency: 4,
+    category: ["Web Development", "Tools"],
+  },
+  {
+    title: "Heroku",
+    competency: 4,
+    category: ["Web Development", "Tools"],
+  },
+  {
+    title: "Google Cloud",
+    competency: 5,
+    category: ["Web Development", "Databases"],
+  },
+  {
+    title: "ElasticSearch",
+    competency: 2,
+    category: ["Web Development", "Databases"],
+  },
+  {
+    title: "PostgreSQL/SQLite3/SQL/Redshift",
+    competency: 4,
+    category: ["Web Development", "Databases", "Languages"],
+  },
+  {
+    title: "Redis",
+    competency: 3,
+    category: ["Web Development", "Databases"],
+  },
+  {
+    title: "Big data",
+    competency: 3,
+    category: ["ML Engineering"],
+  },
+  {
+    title: "Express.JS",
+    competency: 5,
+    category: ["Web Development", "Javascript", "Typescrypt"],
+  },
+  {
+    title: "D3",
+    competency: 4,
+    category: ["Web Development", "Javascript", "Typescrypt"],
+  },
+  {
+    title: "Git",
+    competency: 3,
+    category: ["Tools"],
+  },
+  {
+    title: "Kubernetes",
+    competency: 4,
+    category: ["Tools", "Data Engineering"],
+  },
+  {
+    title: "Google Cloud Compute Engine",
+    competency: 4,
+    category: ["Tools", "Web Development"],
+  },
+  {
+    title: "AWS",
+    competency: 4,
+    category: ["Tools", "Web Development"],
+  },
+  {
+    title: "Docker",
+    competency: 5,
+    category: ["Tools", "Data Engineering"],
+  },
+  {
+    title: "AWS Lambda",
+    competency: 3,
+    category: ["Tools", "Web Development"],
+  },
+  {
+    title: "HTML + SASS/SCSS/CSS",
+    competency: 4,
+    category: ["Web Development", "Languages"],
+  },
+  {
+    title: "Python",
+    competency: 5,
+    category: ["Languages", "Python", "ML Engineering"],
+  },
+  {
+    title: "Ruby",
+    competency: 2,
+    category: ["Languages"],
+  },
+  {
+    title: "Ruby on Rails",
+    competency: 3,
+    category: ["Web Development", "Languages"],
+  },
+  {
+    title: "C++",
+    competency: 3,
+    category: ["Languages"],
+  },
+  {
+    title: "Data Visualization",
+    competency: 4,
+    category: ["Data Science", "Javascript"],
+  },
+  {
+    title: "GraphQL",
+    competency: 4,
+    category: ["Web Development", "Databases"],
+  },
+].map((skill) => ({ ...skill, category: skill.category.sort() }));
