@@ -42,9 +42,10 @@ export const JobPostingSchema = () => {
         __html: JSON.stringify({
           "@context": "https://schema.org",
           "@type": "JobPosting",
-          title: "Senior Software Engineer",
+          title:
+            "Engineering Leadership - CTO, Engineering Manager, Co-founder",
           description:
-            "Seeking opportunities in software engineering leadership, technical management, or senior developer roles.",
+            "Open to opportunities in high-impact engineering leadership roles including CTO, VP of Engineering, Engineering Manager, or technical Co-founder positions. Offering extensive experience in scaling engineering teams, implementing robust technical architectures, and driving product innovation.",
           datePosted: today.toISOString().split("T")[0],
           validThrough: sixMonthsFromNow.toISOString().split("T")[0],
           employmentType: "FULL_TIME",
@@ -66,8 +67,8 @@ export const JobPostingSchema = () => {
             currency: "GBP",
             value: {
               "@type": "QuantitativeValue",
-              minValue: 80000,
-              maxValue: 120000,
+              minValue: 120000,
+              maxValue: 180000,
               unitText: "YEAR",
             },
           },
