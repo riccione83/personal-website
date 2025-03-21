@@ -2,7 +2,16 @@ import type { Config } from "tailwindcss";
 
 export default {
   darkMode: ["class"],
-  content: ["./client/index.html", "./client/src/**/*.{js,jsx,ts,tsx}"],
+  content: [
+    "./client/index.html",
+    "./client/src/**/*.{js,jsx,ts,tsx}",
+    // Ensure no CSS classes are missed
+    "!./client/src/**/*.test.{js,jsx,ts,tsx}",
+    "!./client/src/**/*.stories.{js,jsx,ts,tsx}",
+    "!./client/src/**/*.d.ts",
+  ],
+  // Use just-in-time mode for better CSS optimization
+  mode: "jit",
   theme: {
     extend: {
       borderRadius: {
@@ -86,5 +95,21 @@ export default {
       },
     },
   },
+  // Configure PurgeCSS for production
   plugins: [require("tailwindcss-animate"), require("@tailwindcss/typography")],
+  // Optimize CSS size in production
+  future: {
+    hoverOnlyWhenSupported: true,
+  },
+  // Disable variants that aren't used
+  variants: {
+    extend: {
+      opacity: ["disabled"],
+      cursor: ["disabled"],
+      backgroundColor: ["disabled"],
+      textColor: ["disabled"],
+    },
+  },
+  // More aggressive content purging
+  safelist: [],
 } satisfies Config;

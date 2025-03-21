@@ -19,22 +19,26 @@ export default defineConfig({
     react(),
     runtimeErrorOverlay(),
     themePlugin(),
-    // Enable compression for production
+    // Enable compression for production with lower threshold to compress more files
     isProduction &&
       viteCompression({
         algorithm: "gzip",
         ext: ".gz",
-        filter: /\.(js|css|html|svg)$/i,
-        threshold: 10240, // Only compress files larger than 10kb
+        filter: /\.(js|mjs|json|css|html|svg|txt|xml)$/i,
+        threshold: 1024, // Compress files larger than 1kb
+        deleteOriginFile: false,
+        verbose: true,
       }),
     isProduction &&
       viteCompression({
         algorithm: "brotliCompress",
         ext: ".br",
-        filter: /\.(js|css|html|svg)$/i,
-        threshold: 10240, // Only compress files larger than 10kb
+        filter: /\.(js|mjs|json|css|html|svg|txt|xml)$/i,
+        threshold: 1024, // Compress files larger than 1kb
+        deleteOriginFile: false,
+        verbose: true,
       }),
-    // Add image optimization for production
+    // Add more aggressive image optimization for production
     isProduction &&
       viteImagemin({
         gifsicle: {
@@ -45,10 +49,11 @@ export default defineConfig({
           optimizationLevel: 7,
         },
         mozjpeg: {
-          quality: 80,
+          quality: 75, // Lower quality for better compression
+          progressive: true,
         },
         pngquant: {
-          quality: [0.7, 0.8],
+          quality: [0.65, 0.8], // More aggressive compression
           speed: 4,
         },
         svgo: {
@@ -61,10 +66,14 @@ export default defineConfig({
               name: "removeEmptyAttrs",
               active: false,
             },
+            {
+              name: "cleanupIDs",
+              active: true,
+            },
           ],
         },
         webp: {
-          quality: 80,
+          quality: 75, // Lower quality for better compression
         },
       }),
     // Add visualization in non-CI builds
@@ -92,42 +101,67 @@ export default defineConfig({
         drop_console: true,
         drop_debugger: true,
         pure_funcs: ["console.log", "console.info", "console.debug"],
+        passes: 2, // Multiple passes for better minification
+      },
+      mangle: {
+        properties: false, // Don't mangle properties
       },
     },
-    cssMinify: true,
+    cssMinify: "lightningcss", // Use lightningcss for better CSS optimization
     // Set a reasonable target for modern browsers
     target: "es2018",
-    // Enable source maps for production to help with debugging
+    // Disable source maps in production
     sourcemap: false,
     // Improve chunk splitting for better caching
     rollupOptions: {
       output: {
-        // Simplified manual chunks strategy to avoid React hook issues
-        manualChunks: {
-          vendor: [
-            "react",
-            "react-dom",
-            "scheduler",
-            "react-icons",
-            "@radix-ui/react-avatar",
-            "@radix-ui/react-dialog",
-            "@radix-ui/react-slot",
-            "@radix-ui/react-label",
-            "class-variance-authority",
-            "lucide-react",
-          ],
-          "framer-motion": ["framer-motion"],
+        // Improved manual chunks strategy to reduce unused code
+        manualChunks: (id) => {
+          // React core + hooks - keep all React core functionality together
+          if (
+            id.includes("node_modules/react/") ||
+            id.includes("node_modules/react-dom/") ||
+            id.includes("node_modules/scheduler/") ||
+            id.includes("node_modules/use-sync-external-store/")
+          ) {
+            return "react-core";
+          }
+
+          // Only components used in the app
+          if (id.includes("node_modules/react-icons/")) {
+            return "icons";
+          }
+
+          // UI libraries - only include the ones you're using
+          if (id.includes("node_modules/@radix-ui/")) {
+            return "ui-components";
+          }
+
+          if (id.includes("node_modules/framer-motion/")) {
+            return "animations";
+          }
+
+          // Other libs
+          if (id.includes("node_modules/")) {
+            return "vendor";
+          }
         },
         // Ensure filenames include content hash for proper cache invalidation
         entryFileNames: "assets/[name].[hash].js",
         chunkFileNames: "assets/[name].[hash].js",
         assetFileNames: "assets/[name].[hash].[ext]",
+        // Control dynamic imports
+        inlineDynamicImports: false,
       },
     },
-    // Improve tree-shaking by enabling module mode
-    modulePreload: true,
+    // Improve tree-shaking
+    modulePreload: {
+      polyfill: false, // Modern browsers support modulepreload
+    },
     // Increase chunk size warning limit to avoid unnecessary splitting
-    chunkSizeWarningLimit: 800,
+    chunkSizeWarningLimit: 1000,
+    // Reduce CSS size
+    cssCodeSplit: true,
   },
   // Optimize server during development
   server: {
@@ -140,15 +174,27 @@ export default defineConfig({
   preview: {
     open: true,
     port: 4173,
+    // Remove incorrect Content-Encoding header that's causing decompression issues
+    headers: {
+      "Cache-Control": "public, max-age=31536000",
+      "X-Content-Type-Options": "nosniff",
+    },
   },
   // Optimize asset handling
   assetsInclude: ["**/*.webp", "**/*.avif"],
-  // Limit concurrent requests during dev
+  // Optimize dependencies
   optimizeDeps: {
-    force: false,
+    include: ["react", "react-dom", "react/jsx-runtime"],
+    esbuildOptions: {
+      minify: true,
+      treeShaking: true,
+    },
   },
   // Improve tree-shaking
   esbuild: {
     treeShaking: true,
+    minifyIdentifiers: true,
+    minifySyntax: true,
+    minifyWhitespace: true,
   },
 });

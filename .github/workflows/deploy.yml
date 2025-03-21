@@ -1,4 +1,4 @@
-name: Deploy Website to S3
+name: Deploy Website to S3 with Optimizations
 
 on:
   push:
@@ -6,6 +6,9 @@ on:
   pull_request:
     branches: ["main", "master"]
   workflow_dispatch:
+
+env:
+  CLOUDFRONT_ENABLED: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID != '' }}
 
 jobs:
   build-and-deploy:
@@ -19,13 +22,16 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: "18"
-          cache: "npm"
+          cache: "yarn"
 
       - name: Install dependencies
-        run: npm install
+        run: yarn install --frozen-lockfile
 
-      - name: Build app
-        run: npm run build
+      - name: Build app with optimizations
+        run: NODE_ENV=production yarn build
+        env:
+          # Ensure production environment for best optimization
+          NODE_ENV: production
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
@@ -34,6 +40,105 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION || 'us-east-1' }}
 
-      - name: Deploy to S3
+      - name: Deploy regular files to S3
         run: |
-          aws s3 sync dist/ s3://${{ secrets.AWS_S3_BUCKET }} --delete --acl public-read
+          # Upload non-compressed assets first
+          aws s3 sync dist/ s3://${{ secrets.AWS_S3_BUCKET }} \
+            --delete \
+            --exclude "*.gz" \
+            --exclude "*.br" \
+            --cache-control "public, max-age=31536000, immutable" \
+            --metadata-directive REPLACE
+
+      - name: Set HTML specific content and cache settings
+        run: |
+          # Set HTML files with proper charset and shorter cache
+          aws s3 cp s3://${{ secrets.AWS_S3_BUCKET }}/index.html s3://${{ secrets.AWS_S3_BUCKET }}/index.html \
+            --content-type "text/html; charset=UTF-8" \
+            --metadata-directive REPLACE \
+            --cache-control "public, max-age=0, must-revalidate"
+
+      - name: Upload compressed JS files
+        run: |
+          # Upload JS files with correct content-type and encoding
+          find dist -name "*.js.gz" | while read file; do
+            aws s3 cp "$file" s3://${{ secrets.AWS_S3_BUCKET }}/${file#dist/} \
+              --content-type "application/javascript; charset=UTF-8" \
+              --content-encoding "gzip" \
+              --cache-control "public, max-age=31536000, immutable" \
+              --metadata-directive REPLACE
+          done
+
+          # Upload Brotli compressed JS if available
+          find dist -name "*.js.br" | while read file; do
+            aws s3 cp "$file" s3://${{ secrets.AWS_S3_BUCKET }}/${file#dist/} \
+              --content-type "application/javascript; charset=UTF-8" \
+              --content-encoding "br" \
+              --cache-control "public, max-age=31536000, immutable" \
+              --metadata-directive REPLACE
+          done
+
+      - name: Upload compressed CSS files
+        run: |
+          # Upload CSS files with correct content-type and encoding
+          find dist -name "*.css.gz" | while read file; do
+            aws s3 cp "$file" s3://${{ secrets.AWS_S3_BUCKET }}/${file#dist/} \
+              --content-type "text/css; charset=UTF-8" \
+              --content-encoding "gzip" \
+              --cache-control "public, max-age=31536000, immutable" \
+              --metadata-directive REPLACE
+          done
+
+          # Upload Brotli compressed CSS if available
+          find dist -name "*.css.br" | while read file; do
+            aws s3 cp "$file" s3://${{ secrets.AWS_S3_BUCKET }}/${file#dist/} \
+              --content-type "text/css; charset=UTF-8" \
+              --content-encoding "br" \
+              --cache-control "public, max-age=31536000, immutable" \
+              --metadata-directive REPLACE
+          done
+
+      - name: Upload compressed HTML files
+        run: |
+          # Upload HTML files with correct content-type and encoding
+          find dist -name "*.html.gz" | while read file; do
+            aws s3 cp "$file" s3://${{ secrets.AWS_S3_BUCKET }}/${file#dist/} \
+              --content-type "text/html; charset=UTF-8" \
+              --content-encoding "gzip" \
+              --cache-control "public, max-age=0, must-revalidate" \
+              --metadata-directive REPLACE
+          done
+
+          # Upload Brotli compressed HTML if available
+          find dist -name "*.html.br" | while read file; do
+            aws s3 cp "$file" s3://${{ secrets.AWS_S3_BUCKET }}/${file#dist/} \
+              --content-type "text/html; charset=UTF-8" \
+              --content-encoding "br" \
+              --cache-control "public, max-age=0, must-revalidate" \
+              --metadata-directive REPLACE
+          done
+
+      - name: Set CORS configuration
+        run: |
+          aws s3api put-bucket-cors --bucket ${{ secrets.AWS_S3_BUCKET }} --cors-configuration '{
+            "CORSRules": [
+              {
+                "AllowedOrigins": ["*"],
+                "AllowedMethods": ["GET", "HEAD"],
+                "AllowedHeaders": ["*"],
+                "ExposeHeaders": ["ETag"],
+                "MaxAgeSeconds": 86400
+              }
+            ]
+          }'
+
+      - name: Invalidate CloudFront cache
+        # Only run this step if CLOUDFRONT_DISTRIBUTION_ID is available
+        run: |
+          if [ ! -z "${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}" ]; then
+            aws cloudfront create-invalidation \
+              --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} \
+              --paths "/*"
+          else
+            echo "CloudFront distribution ID not provided, skipping invalidation."
+          fi
