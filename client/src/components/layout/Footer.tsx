@@ -21,24 +21,30 @@ export function Footer() {
               target="_blank"
               rel="noopener noreferrer"
               className="text-muted-foreground hover:text-foreground transition-colors"
+              aria-label="Visit Riccardo's GitHub profile"
             >
               <FaGithub className="h-5 w-5" />
+              <span className="sr-only">GitHub</span>
             </a>
             <a
               href={socialLinks.linkedin}
               target="_blank"
               rel="noopener noreferrer"
               className="text-muted-foreground hover:text-foreground transition-colors"
+              aria-label="Visit Riccardo's LinkedIn profile"
             >
               <FaLinkedin className="h-5 w-5" />
+              <span className="sr-only">LinkedIn</span>
             </a>
             <a
               href={socialLinks.twitter}
               target="_blank"
               rel="noopener noreferrer"
               className="text-muted-foreground hover:text-foreground transition-colors"
+              aria-label="Visit Riccardo's Twitter profile"
             >
               <FaTwitter className="h-5 w-5" />
+              <span className="sr-only">Twitter</span>
             </a>
           </div>
         </div>

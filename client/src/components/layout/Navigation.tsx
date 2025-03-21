@@ -16,7 +16,11 @@ export function Navigation() {
     <nav className="fixed top-0 left-0 right-0 bg-background/95 backdrop-blur z-50 border-b">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
-          <a href="#" className="text-2xl font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
+          <a
+            href="#home"
+            className="text-2xl font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent"
+            aria-label="Riccardo Rizzo - Home"
+          >
             Riccardo Rizzo
           </a>
 
@@ -39,6 +43,8 @@ export function Navigation() {
             size="icon"
             className="md:hidden"
             onClick={() => setIsOpen(!isOpen)}
+            aria-label={isOpen ? "Close menu" : "Open menu"}
+            aria-expanded={isOpen}
           >
             {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </Button>

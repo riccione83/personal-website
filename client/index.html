@@ -2,7 +2,10 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
     <title>Riccardo Rizzo | Software Engineer & Web Developer</title>
     <meta
       name="description"
@@ -14,6 +17,11 @@
     />
     <meta name="author" content="Riccardo Rizzo" />
     <meta name="theme-color" content="#ffffff" />
+
+    <!-- Favicon -->
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/images/riky_squared.jpg" />
+    <link rel="manifest" href="/favicon/site.webmanifest" />
 
     <!-- Preconnect to external domains -->
     <link rel="preconnect" href="https://m.media-amazon.com" crossorigin />
@@ -27,6 +35,33 @@
       href="/images/riky_squared.jpg"
       as="image"
       fetchpriority="high"
+      type="image/jpeg"
+    />
+
+    <!-- Preload external images to reduce CLS -->
+    <link
+      rel="preload"
+      href="https://m.media-amazon.com/images/I/41yzrRyk1cL._SY522_.jpg"
+      as="image"
+      fetchpriority="low"
+      type="image/jpeg"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="preload"
+      href="https://m.media-amazon.com/images/I/51WM7tU03qL._SY522_.jpg"
+      as="image"
+      fetchpriority="low"
+      type="image/jpeg"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="preload"
+      href="https://miro.medium.com/v2/resize:fit:1400/1*fSGayL9fUzK5hdhg5r7Nxw.jpeg"
+      as="image"
+      fetchpriority="low"
+      type="image/jpeg"
+      crossorigin="anonymous"
     />
 
     <!-- Open Graph / Social Media Meta Tags -->
@@ -50,9 +85,6 @@
       content="Software engineer specialising in web development and cloud architecture."
     />
     <meta name="twitter:image" content="/images/riky_squared.jpg" />
-
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href="/favicon.ico" />
 
     <!-- Canonical URL -->
     <link rel="canonical" href="https://www.riccardorizzo.eu" />

@@ -7,7 +7,6 @@ import {
 } from "@/components/ui/card";
 import { FaExternalLinkAlt } from "react-icons/fa";
 import { SiAmazon, SiMedium } from "react-icons/si";
-import { motion } from "framer-motion";
 
 const publications = [
   {
@@ -70,60 +69,26 @@ const publications = [
 ];
 
 export function Portfolio() {
-  const container = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-      },
-    },
-  };
-
-  const item = {
-    hidden: { opacity: 0, y: 20 },
-    show: { opacity: 1, y: 0 },
-  };
-
   return (
     <section id="portfolio" className="py-16 md:py-24">
       <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8 flex flex-col items-center">
-        <motion.h2
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-3xl md:text-4xl font-bold text-center mb-12"
-        >
+        <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
           Publications
-        </motion.h2>
+        </h2>
 
         {/* Books Section */}
         <div className="mb-16 w-full max-w-4xl">
-          <motion.h3
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-2xl font-semibold mb-8"
-          >
-            Books
-          </motion.h3>
-          <motion.div
-            className="grid md:grid-cols-2 gap-8"
-            variants={container}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true }}
-          >
+          <h3 className="text-2xl font-semibold mb-8">Books</h3>
+          <div className="grid md:grid-cols-2 gap-8">
             {publications
               .filter((pub) => pub.type === "book")
               .map((publication) => (
-                <motion.div key={publication.title} variants={item}>
+                <div key={publication.title}>
                   <Card className="overflow-hidden h-full hover:shadow-lg transition-shadow duration-300">
                     <div className="grid md:grid-cols-[200px,1fr] gap-6">
-                      <motion.div
-                        whileHover={{ scale: 1.05 }}
-                        transition={{ duration: 0.3 }}
-                        className="relative aspect-[3/4] overflow-hidden"
+                      <div
+                        className="relative overflow-hidden"
+                        style={{ width: "200px", height: "300px" }}
                       >
                         <img
                           src={publication.image}
@@ -132,8 +97,9 @@ export function Portfolio() {
                           loading="lazy"
                           width="200"
                           height="300"
+                          style={{ aspectRatio: "3/4" }}
                         />
-                      </motion.div>
+                      </div>
                       <div className="p-6">
                         <CardHeader className="p-0">
                           <CardTitle className="text-xl mb-2">
@@ -147,50 +113,39 @@ export function Portfolio() {
                           <p className="text-sm text-muted-foreground mb-4 line-clamp-3">
                             {publication.desc}
                           </p>
-                          <motion.a
+                          <a
                             href={publication.link}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="inline-flex items-center gap-2 text-primary hover:text-primary/80 transition-colors"
-                            whileHover={{ x: 5 }}
                           >
                             <SiAmazon className="h-5 w-5" />
                             <span>View on Amazon</span>
-                          </motion.a>
+                          </a>
                         </CardContent>
                       </div>
                     </div>
                   </Card>
-                </motion.div>
+                </div>
               ))}
-          </motion.div>
+          </div>
         </div>
 
         {/* Articles Section */}
         <div>
-          <motion.h3
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-2xl font-semibold mb-8"
-          >
-            Articles & Blogs
-          </motion.h3>
-          <motion.div
-            className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
-            variants={container}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true }}
-          >
+          <h3 className="text-2xl font-semibold mb-8">Articles & Blogs</h3>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {publications
               .filter((pub) => pub.type === "article")
               .map((publication) => (
-                <motion.div key={publication.title} variants={item}>
+                <div key={publication.title}>
                   <Card className="overflow-hidden h-full hover:shadow-lg transition-shadow duration-300">
-                    <motion.div
-                      whileHover={{ scale: 1.05 }}
-                      transition={{ duration: 0.3 }}
+                    <div
+                      style={{
+                        width: "100%",
+                        height: "192px",
+                        position: "relative",
+                      }}
                     >
                       <img
                         src={publication.image}
@@ -199,8 +154,9 @@ export function Portfolio() {
                         loading="lazy"
                         width="400"
                         height="192"
+                        style={{ aspectRatio: "2/1" }}
                       />
-                    </motion.div>
+                    </div>
                     <CardHeader>
                       <CardTitle className="text-lg">
                         {publication.title}
@@ -211,12 +167,11 @@ export function Portfolio() {
                       <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
                         {publication.desc}
                       </p>
-                      <motion.a
+                      <a
                         href={publication.link}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="inline-flex items-center gap-2 text-primary hover:text-primary/80 transition-colors"
-                        whileHover={{ x: 5 }}
                       >
                         {publication.subtitle
                           .toLowerCase()
@@ -226,12 +181,12 @@ export function Portfolio() {
                           <FaExternalLinkAlt className="h-4 w-4" />
                         )}
                         <span>Read Article</span>
-                      </motion.a>
+                      </a>
                     </CardContent>
                   </Card>
-                </motion.div>
+                </div>
               ))}
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>

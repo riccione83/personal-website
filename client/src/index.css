@@ -11,3 +11,24 @@
     @apply font-sans antialiased bg-background text-foreground;
   }
 }
+
+/* Add at the top of the file - CLS prevention */
+img {
+  aspect-ratio: attr(width) / attr(height);
+}
+
+/* Apply minimum heights to prevent layout shifts */
+section {
+  min-height: 300px;
+}
+
+/* Card images */
+.card-image-container {
+  min-height: 192px;
+  aspect-ratio: 2/1;
+}
+
+.book-image-container {
+  min-height: 300px;
+  aspect-ratio: 3/4;
+}
