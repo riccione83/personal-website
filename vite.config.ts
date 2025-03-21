@@ -102,31 +102,16 @@ export default defineConfig({
     // Improve chunk splitting for better caching
     rollupOptions: {
       output: {
-        manualChunks: (id) => {
-          // Create specific chunks for large dependencies
-          if (id.includes("node_modules")) {
-            if (id.includes("react") || id.includes("react-dom")) {
-              return "vendor-react";
-            }
-            if (id.includes("framer-motion")) {
-              return "vendor-motion";
-            }
-            if (id.includes("@radix-ui")) {
-              return "vendor-radix";
-            }
-            if (id.includes("lucide")) {
-              return "vendor-icons";
-            }
-            // Group other dependencies
-            return "vendor";
-          }
-
-          // Group by feature folders
-          if (id.includes("/src/components/ui/")) {
-            return "ui-components";
-          }
-
-          return undefined;
+        manualChunks: {
+          "vendor-react": [
+            "react",
+            "react-dom",
+            "react-dom/client",
+            "scheduler",
+            "prop-types",
+          ],
+          "vendor-motion": ["framer-motion"],
+          "vendor-ui": ["@radix-ui/react-avatar", "@radix-ui/react-dialog"],
         },
         // Ensure filenames include content hash for proper cache invalidation
         entryFileNames: "assets/[name].[hash].js",

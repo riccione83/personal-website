@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import React, { useState, useMemo } from "react";
 import { motion } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
 
@@ -97,23 +97,33 @@ const CompetencyBar = ({ level }: { level: number }) => (
       <div
         key={i}
         className={`h-4 flex-1 rounded-sm transition-colors ${
-          i <= level
-            ? `bg-primary ${i === level ? "animate-pulse" : ""}`
-            : "bg-muted"
+          i <= level ? "bg-primary" : "bg-muted"
         }`}
       />
     ))}
   </div>
 );
 
-export function SkillsGraph() {
-  const [selectedCategory, setSelectedCategory] = useState("ALL");
-  const [hoveredSkill, setHoveredSkill] = useState<string | null>(null);
+function SkillsGraph() {
+  const [selectedCategory, setSelectedCategory] = React.useState("ALL");
+  const [hoveredSkill, setHoveredSkill] = React.useState<string | null>(null);
 
-  const filteredSkills = useMemo(() => {
+  const filteredSkills = React.useMemo(() => {
     if (selectedCategory === "ALL") return skills;
     return skills.filter((skill) => skill.category.includes(selectedCategory));
   }, [selectedCategory]);
+
+  const handleCategoryChange = React.useCallback((category: string) => {
+    setSelectedCategory(category);
+  }, []);
+
+  const handleMouseEnter = React.useCallback((skillTitle: string) => {
+    setHoveredSkill(skillTitle);
+  }, []);
+
+  const handleMouseLeave = React.useCallback(() => {
+    setHoveredSkill(null);
+  }, []);
 
   return (
     <div className="space-y-8">
@@ -129,53 +139,45 @@ export function SkillsGraph() {
       </div>
 
       <div className="flex flex-wrap gap-2 justify-center mb-8">
-        <motion.button
+        <button
           key="ALL"
-          onClick={() => setSelectedCategory("ALL")}
+          onClick={() => handleCategoryChange("ALL")}
           className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
             selectedCategory === "ALL"
               ? "bg-primary text-primary-foreground"
               : "bg-muted hover:bg-muted/80"
           }`}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
         >
           ALL
-        </motion.button>
+        </button>
         {categories.map((category) => (
-          <motion.button
+          <button
             key={category}
-            onClick={() => setSelectedCategory(category)}
+            onClick={() => handleCategoryChange(category)}
             className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
               selectedCategory === category
                 ? "bg-primary text-primary-foreground"
                 : "bg-muted hover:bg-muted/80"
             }`}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
           >
             {category}
-          </motion.button>
+          </button>
         ))}
       </div>
 
       <Card className="shadow-md">
         <CardContent className="p-6 md:p-8">
-          <motion.div layout className="grid gap-6">
-            {filteredSkills.map((skill, index) => (
-              <motion.div
+          <div className="grid gap-6">
+            {filteredSkills.map((skill) => (
+              <div
                 key={skill.title}
-                layout
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.05, duration: 0.3 }}
                 className={`grid grid-cols-1 sm:grid-cols-[200px,1fr] lg:grid-cols-[250px,1fr] xl:grid-cols-[300px,1fr] gap-2 sm:gap-8 items-center rounded-lg p-2 ${
                   hoveredSkill === skill.title
                     ? "bg-muted/50"
                     : "hover:bg-muted/30"
                 } transition-colors`}
-                onMouseEnter={() => setHoveredSkill(skill.title)}
-                onMouseLeave={() => setHoveredSkill(null)}
+                onMouseEnter={() => handleMouseEnter(skill.title)}
+                onMouseLeave={handleMouseLeave}
               >
                 <div className="font-medium text-base sm:text-lg break-words pr-4">
                   {skill.title}
@@ -203,11 +205,13 @@ export function SkillsGraph() {
                     {skill.competency}/5
                   </div>
                 </div>
-              </motion.div>
+              </div>
             ))}
-          </motion.div>
+          </div>
         </CardContent>
       </Card>
     </div>
   );
 }
+
+export { SkillsGraph };
