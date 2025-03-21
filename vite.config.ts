@@ -102,16 +102,21 @@ export default defineConfig({
     // Improve chunk splitting for better caching
     rollupOptions: {
       output: {
+        // Simplified manual chunks strategy to avoid React hook issues
         manualChunks: {
-          "vendor-react": [
+          vendor: [
             "react",
             "react-dom",
-            "react-dom/client",
             "scheduler",
-            "prop-types",
+            "react-icons",
+            "@radix-ui/react-avatar",
+            "@radix-ui/react-dialog",
+            "@radix-ui/react-slot",
+            "@radix-ui/react-label",
+            "class-variance-authority",
+            "lucide-react",
           ],
-          "vendor-motion": ["framer-motion"],
-          "vendor-ui": ["@radix-ui/react-avatar", "@radix-ui/react-dialog"],
+          "framer-motion": ["framer-motion"],
         },
         // Ensure filenames include content hash for proper cache invalidation
         entryFileNames: "assets/[name].[hash].js",
@@ -119,8 +124,10 @@ export default defineConfig({
         assetFileNames: "assets/[name].[hash].[ext]",
       },
     },
-    // Enable small chunk size warnings
-    chunkSizeWarningLimit: 500,
+    // Improve tree-shaking by enabling module mode
+    modulePreload: true,
+    // Increase chunk size warning limit to avoid unnecessary splitting
+    chunkSizeWarningLimit: 800,
   },
   // Optimize server during development
   server: {
@@ -139,5 +146,9 @@ export default defineConfig({
   // Limit concurrent requests during dev
   optimizeDeps: {
     force: false,
+  },
+  // Improve tree-shaking
+  esbuild: {
+    treeShaking: true,
   },
 });
