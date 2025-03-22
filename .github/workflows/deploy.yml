@@ -91,15 +91,14 @@ jobs:
           aws s3 cp s3://${{ secrets.AWS_S3_BUCKET }}/index.html s3://${{ secrets.AWS_S3_BUCKET }}/index.html \
             --content-type "text/html; charset=UTF-8" \
             --metadata-directive REPLACE \
-            --cache-control "public, max-age=0, must-revalidate" \
-            --website-redirect-location "https://${{ secrets.AWS_S3_BUCKET_DOMAIN || 'www.riccardorizzo.eu' }}/"
+            --cache-control "public, max-age=0, must-revalidate"
             
           # Set special HTML headers for iOS Safari compatibility
           aws s3 cp s3://${{ secrets.AWS_S3_BUCKET }}/index.html s3://${{ secrets.AWS_S3_BUCKET }}/index.html \
             --content-type "text/html; charset=UTF-8" \
             --metadata-directive REPLACE \
-            --cache-control "public, max-age=0, must-revalidate" \
-            --metadata '{"x-amz-meta-vary":"Accept-Encoding"}'
+            --metadata '{"x-amz-meta-vary":"Accept-Encoding"}' \
+            --cache-control "public, max-age=0, must-revalidate"
 
       - name: Upload compressed JS files
         run: |
@@ -175,11 +174,44 @@ jobs:
             ]
           }'
 
+      - name: Configure HTTP to HTTPS redirect for S3 Website
+        run: |
+          # Create a JSON file with redirect rules
+          cat > redirect-rules.json << 'EOF'
+          {
+            "RoutingRules": [
+              {
+                "Condition": {
+                  "HttpErrorCodeReturnedEquals": "403"
+                },
+                "Redirect": {
+                  "Protocol": "https",
+                  "HostName": "${{ secrets.AWS_S3_BUCKET_DOMAIN || 'www.riccardorizzo.eu' }}",
+                  "ReplaceKeyWith": "index.html"
+                }
+              },
+              {
+                "Condition": {
+                  "KeyPrefixEquals": ""
+                },
+                "Redirect": {
+                  "Protocol": "https",
+                  "HostName": "${{ secrets.AWS_S3_BUCKET_DOMAIN || 'www.riccardorizzo.eu' }}",
+                  "ReplaceKeyWith": ""
+                }
+              }
+            ]
+          }
+          EOF
+
+          # Apply the redirect rules to S3 bucket website configuration
+          aws s3api put-bucket-website --bucket ${{ secrets.AWS_S3_BUCKET }} --website-configuration file://redirect-rules.json || echo "Could not set redirect rules, possibly due to permissions or bucket configuration"
+
       - name: Set Security Headers for CloudFront
         if: ${{ env.CLOUDFRONT_ENABLED == 'true' }}
         run: |
           # Create a security headers policy (only if using CloudFront)
-          aws cloudfront create-response-headers-policy --cli-input-json '{
+          POLICY_ID=$(aws cloudfront create-response-headers-policy --cli-input-json '{
             "ResponseHeadersPolicyConfig": {
               "Name": "SecurityHeadersPolicy",
               "SecurityHeadersConfig": {
@@ -210,7 +242,27 @@ jobs:
               },
               "Comment": "Security headers for enhanced website security"
             }
-          }' || echo "Could not create response headers policy (might already exist)"
+          }' --query 'ResponseHeadersPolicy.Id' --output text 2>/dev/null) || echo "Could not create response headers policy (might already exist)"
+
+          # If we got a policy ID, attach it to the CloudFront distribution
+          if [ ! -z "$POLICY_ID" ] && [ ! -z "${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}" ]; then
+            echo "Attaching security headers policy to CloudFront distribution"
+            
+            # Get the current distribution config
+            aws cloudfront get-distribution-config --id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} --output json > cf-config.json
+            
+            # Extract the ETag
+            ETAG=$(jq -r '.ETag' cf-config.json)
+            
+            # Update the DefaultCacheBehavior to use the new policy
+            jq --arg policy_id "$POLICY_ID" '.DistributionConfig.DefaultCacheBehavior.ResponseHeadersPolicyId = $policy_id' cf-config.json > cf-config-updated.json
+            
+            # Remove the ETag from the updated config
+            jq 'del(.ETag)' cf-config-updated.json > cf-config-final.json
+            
+            # Update the distribution with the new config
+            aws cloudfront update-distribution --id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} --distribution-config file://cf-config-final.json --if-match "$ETAG" || echo "Could not update CloudFront distribution with security headers policy"
+          fi
 
       - name: Invalidate CloudFront cache
         # Only run this step if CLOUDFRONT_DISTRIBUTION_ID is available
