@@ -1,0 +1,29 @@
+{
+  "Comment": "Update DNS records for riccardorizzo.eu",
+  "Changes": [
+    {
+      "Action": "UPSERT",
+      "ResourceRecordSet": {
+        "Name": "riccardorizzo.eu",
+        "Type": "A",
+        "AliasTarget": {
+          "HostedZoneId": "Z2FDTNDATAQYW2",
+          "DNSName": "d1dzs2h0gh7hpj.cloudfront.net",
+          "EvaluateTargetHealth": false
+        }
+      }
+    },
+    {
+      "Action": "UPSERT",
+      "ResourceRecordSet": {
+        "Name": "www.riccardorizzo.eu",
+        "Type": "A",
+        "AliasTarget": {
+          "HostedZoneId": "Z2FDTNDATAQYW2",
+          "DNSName": "d25m2x7z4bt3s7.cloudfront.net",
+          "EvaluateTargetHealth": false
+        }
+      }
+    }
+  ]
+}

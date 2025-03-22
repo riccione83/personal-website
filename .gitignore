@@ -29,6 +29,7 @@ build
 *.njsproj
 *.sln
 *.sw?
+*.sh
 
 # Environment variables
 .env

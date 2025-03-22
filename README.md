@@ -1,77 +1,113 @@
-# Personal Website
+# Personal Website - Riccardo Rizzo
 
-A modern, responsive personal website/portfolio built with React, Tailwind CSS, and Framer Motion.
+A modern, responsive personal website built with React and optimized for performance across all devices and browsers, including iOS Safari.
 
 ## Features
 
-- Responsive design that works on all devices
-- Modern UI with smooth animations
-- Sections for About, Work Experience, Publications, and Contact
-- Social media links for easy connection
-- Fully static - can be hosted on S3 or any static hosting service
+- Responsive design optimized for all devices
+- Optimized for performance with best PageSpeed scores
+- SEO-friendly with structured data
+- AWS CloudFront CDN integration
+- Automated deployment via GitHub Actions
+- Comprehensive browser compatibility (Chrome, Firefox, Safari, Edge)
 
 ## Tech Stack
 
-- React
-- TypeScript
-- Tailwind CSS
-- Framer Motion
-- Vite
+- **Frontend:** React, TypeScript, Vite
+- **Styling:** CSS with modern features
+- **Deployment:** AWS (S3, CloudFront, Route53)
+- **CI/CD:** GitHub Actions
+- **Performance:** Optimized assets, proper caching, compression
 
-## Getting Started
+## Development
 
 ### Prerequisites
 
-- Node.js (v14 or higher)
-- npm or yarn
+- Node.js 18+
+- Yarn
 
-### Installation
+### Getting Started
 
 1. Clone the repository
-
-   ```bash
-   git clone https://github.com/yourusername/personal-website.git
-   cd personal-website
+2. Install dependencies:
    ```
-
-2. Install dependencies
-
-   ```bash
-   npm install
-   # or
-   yarn
+   yarn install
    ```
-
-3. Start the development server
-
-   ```bash
-   npm run dev
-   # or
+3. Start development server:
+   ```
    yarn dev
    ```
-
-4. Open your browser and navigate to `http://localhost:5173`
-
-## Building for Production
-
-```bash
-npm run build
-# or
-yarn build
-```
-
-This will create a `dist` directory with your built website.
+4. Build for production:
+   ```
+   NODE_ENV=production yarn build
+   ```
 
 ## Deployment
 
-See [DEPLOYMENT.md](DEPLOYMENT.md) for instructions on deploying to AWS S3.
+This website is deployed to AWS using GitHub Actions. The deployment architecture includes:
 
-## Customization
+- S3 bucket for static content storage
+- CloudFront distributions for CDN delivery
+- Route53 for DNS management
 
-- Update your social media links in `client/src/components/sections/Contact.tsx`
-- Modify your work experience in `client/src/components/sections/Experience.tsx`
-- Edit your publications in `client/src/components/sections/Portfolio.tsx`
-- Change your about information in `client/src/components/sections/About.tsx`
+### Manual Deployment
+
+To manually deploy the website:
+
+1. Build the project:
+   ```
+   NODE_ENV=production yarn build
+   ```
+2. Deploy to S3:
+   ```
+   ./deploy.sh
+   ```
+
+### GitHub Actions Deployment
+
+The repository includes GitHub Actions workflows that automatically deploy the website to AWS when changes are pushed to the main branch.
+
+For details on setting up GitHub Actions deployment, see [DEPLOYMENT_GITHUB.md](./DEPLOYMENT_GITHUB.md).
+
+### AWS Configuration
+
+The website uses two CloudFront distributions:
+
+- `www.riccardorizzo.eu` (primary domain)
+- `riccardorizzo.eu` (secondary domain)
+
+Both domains point to the same S3 bucket, configured correctly to handle all traffic.
+
+## Browser Compatibility
+
+The website is fully tested and compatible with:
+
+- Chrome (latest)
+- Firefox (latest)
+- Safari (desktop and mobile, including iOS)
+- Edge (latest)
+
+## Performance Optimizations
+
+The following optimizations have been implemented:
+
+- Image compression and optimization
+- CSS and JavaScript minification
+- HTTP/2 support via CloudFront
+- Proper content type headers
+- Browser caching with appropriate Cache-Control headers
+- Gzip and Brotli compression
+- Critical CSS inlining
+- Lazy loading of non-critical resources
+- Mobile-specific optimizations for iOS Safari
+
+## Scripts
+
+- `yarn dev`: Start development server
+- `yarn build`: Build for production
+- `yarn preview`: Preview production build
+- `./deploy.sh`: Deploy to AWS
+- `./setup-github-secrets.sh`: Set up GitHub secrets for deployment
 
 ## License
 

@@ -9,6 +9,7 @@ on:
 
 env:
   CLOUDFRONT_ENABLED: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID != '' }}
+  CLOUDFRONT_NON_WWW_ENABLED: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID_NON_WWW != '' }}
 
 jobs:
   build-and-deploy:
@@ -38,7 +39,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION || 'us-east-1' }}
+          aws-region: ${{ secrets.AWS_REGION || 'eu-west-1' }}
 
       - name: Set XML sitemap content type (direct upload)
         run: |
@@ -272,13 +273,26 @@ jobs:
             aws cloudfront update-distribution --id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} --distribution-config file://cf-config-final.json --if-match "$ETAG" || echo "Could not update CloudFront distribution with security headers policy"
           fi
 
-      - name: Invalidate CloudFront cache
+      - name: Invalidate CloudFront cache (www)
         # Only run this step if CLOUDFRONT_DISTRIBUTION_ID is available
         run: |
           if [ ! -z "${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}" ]; then
             aws cloudfront create-invalidation \
               --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} \
               --paths "/*"
+            echo "CloudFront cache invalidated for www distribution."
           else
-            echo "CloudFront distribution ID not provided, skipping invalidation."
+            echo "CloudFront distribution ID not provided, skipping www invalidation."
+          fi
+
+      - name: Invalidate CloudFront cache (non-www)
+        # Only run this step if CLOUDFRONT_DISTRIBUTION_ID_NON_WWW is available
+        run: |
+          if [ ! -z "${{ secrets.CLOUDFRONT_DISTRIBUTION_ID_NON_WWW }}" ]; then
+            aws cloudfront create-invalidation \
+              --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID_NON_WWW }} \
+              --paths "/*"
+            echo "CloudFront cache invalidated for non-www distribution."
+          else
+            echo "Non-www CloudFront distribution ID not provided, skipping non-www invalidation."
           fi
