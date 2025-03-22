@@ -40,33 +40,15 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION || 'us-east-1' }}
 
-      - name: Deploy regular files to S3
+      - name: Set XML sitemap content type (direct upload)
         run: |
-          # Upload non-compressed assets first
-          aws s3 sync dist/ s3://${{ secrets.AWS_S3_BUCKET }} \
-            --delete \
-            --exclude "*.gz" \
-            --exclude "*.br" \
-            --cache-control "public, max-age=31536000, immutable" \
-            --metadata-directive REPLACE
-
-      - name: Set HTML specific content and cache settings
-        run: |
-          # Set HTML files with proper charset and shorter cache
-          aws s3 cp s3://${{ secrets.AWS_S3_BUCKET }}/index.html s3://${{ secrets.AWS_S3_BUCKET }}/index.html \
-            --content-type "text/html; charset=UTF-8" \
-            --metadata-directive REPLACE \
-            --cache-control "public, max-age=0, must-revalidate"
-
-      - name: Set XML sitemap content type
-        run: |
-          # Set sitemap.xml with proper content type
-          aws s3 cp s3://${{ secrets.AWS_S3_BUCKET }}/sitemap.xml s3://${{ secrets.AWS_S3_BUCKET }}/sitemap.xml \
+          # Upload sitemap.xml with proper content type
+          aws s3 cp dist/sitemap.xml s3://${{ secrets.AWS_S3_BUCKET }}/sitemap.xml \
             --content-type "application/xml; charset=UTF-8" \
             --metadata-directive REPLACE \
             --cache-control "public, max-age=86400"
             
-          # Set compressed versions with proper content type and encoding
+          # Upload compressed versions with proper content type and encoding
           if [ -f "dist/sitemap.xml.gz" ]; then
             aws s3 cp dist/sitemap.xml.gz s3://${{ secrets.AWS_S3_BUCKET }}/sitemap.xml.gz \
               --content-type "application/xml; charset=UTF-8" \
@@ -82,6 +64,34 @@ jobs:
               --metadata-directive REPLACE \
               --cache-control "public, max-age=86400"
           fi
+
+          # Upload robots.txt with proper content type
+          aws s3 cp dist/robots.txt s3://${{ secrets.AWS_S3_BUCKET }}/robots.txt \
+            --content-type "text/plain; charset=UTF-8" \
+            --metadata-directive REPLACE \
+            --cache-control "public, max-age=86400"
+
+      - name: Deploy regular files to S3
+        run: |
+          # Upload non-compressed assets first, excluding sitemap files which were already uploaded
+          aws s3 sync dist/ s3://${{ secrets.AWS_S3_BUCKET }} \
+            --delete \
+            --exclude "*.gz" \
+            --exclude "*.br" \
+            --exclude "sitemap.xml" \
+            --exclude "sitemap.xml.gz" \
+            --exclude "sitemap.xml.br" \
+            --exclude "robots.txt" \
+            --cache-control "public, max-age=31536000, immutable" \
+            --metadata-directive REPLACE
+
+      - name: Set HTML specific content and cache settings
+        run: |
+          # Set HTML files with proper charset and shorter cache
+          aws s3 cp s3://${{ secrets.AWS_S3_BUCKET }}/index.html s3://${{ secrets.AWS_S3_BUCKET }}/index.html \
+            --content-type "text/html; charset=UTF-8" \
+            --metadata-directive REPLACE \
+            --cache-control "public, max-age=0, must-revalidate"
 
       - name: Upload compressed JS files
         run: |
