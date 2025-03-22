@@ -87,18 +87,59 @@ jobs:
 
       - name: Set HTML specific content and cache settings
         run: |
-          # Set HTML files with proper charset and shorter cache
+          # Set HTML files with proper charset and shorter cache with iOS compatibility headers
           aws s3 cp s3://${{ secrets.AWS_S3_BUCKET }}/index.html s3://${{ secrets.AWS_S3_BUCKET }}/index.html \
             --content-type "text/html; charset=UTF-8" \
             --metadata-directive REPLACE \
-            --cache-control "public, max-age=0, must-revalidate"
-            
-          # Set special HTML headers for iOS Safari compatibility
-          aws s3 cp s3://${{ secrets.AWS_S3_BUCKET }}/index.html s3://${{ secrets.AWS_S3_BUCKET }}/index.html \
-            --content-type "text/html; charset=UTF-8" \
-            --metadata-directive REPLACE \
-            --metadata '{"x-amz-meta-vary":"Accept-Encoding"}' \
-            --cache-control "public, max-age=0, must-revalidate"
+            --metadata '{"Cache-Control":"public, max-age=0, must-revalidate", "Vary":"Accept-Encoding, User-Agent", "X-Content-Type-Options":"nosniff", "X-XSS-Protection":"1; mode=block", "Referrer-Policy":"strict-origin-when-cross-origin"}' \
+            --cache-control "public, max-age=0, must-revalidate" \
+            --acl public-read
+
+      - name: Install jq for JSON processing
+        run: |
+          apt-get update && apt-get install -y jq || sudo apt-get update && sudo apt-get install -y jq
+
+      - name: Configure S3 bucket for website hosting
+        run: |
+          # Enable website hosting on the S3 bucket
+          aws s3 website s3://${{ secrets.AWS_S3_BUCKET }} --index-document index.html --error-document index.html
+
+          # Set up website configuration with CORS and proper error handling
+          cat > website-config.json << 'EOF'
+          {
+            "IndexDocument": {
+              "Suffix": "index.html"
+            },
+            "ErrorDocument": {
+              "Key": "index.html"
+            },
+            "RoutingRules": [
+              {
+                "Condition": {
+                  "HttpErrorCodeReturnedEquals": "404"
+                },
+                "Redirect": {
+                  "Protocol": "https",
+                  "HostName": "${{ secrets.AWS_S3_BUCKET_DOMAIN || 'www.riccardorizzo.eu' }}",
+                  "ReplaceKeyWith": "index.html"
+                }
+              },
+              {
+                "Condition": {
+                  "HttpErrorCodeReturnedEquals": "403"
+                },
+                "Redirect": {
+                  "Protocol": "https",
+                  "HostName": "${{ secrets.AWS_S3_BUCKET_DOMAIN || 'www.riccardorizzo.eu' }}",
+                  "ReplaceKeyWith": "index.html"
+                }
+              }
+            ]
+          }
+          EOF
+
+          # Apply the website configuration
+          aws s3api put-bucket-website --bucket ${{ secrets.AWS_S3_BUCKET }} --website-configuration file://website-config.json || echo "Could not apply website configuration"
 
       - name: Upload compressed JS files
         run: |
@@ -173,39 +214,6 @@ jobs:
               }
             ]
           }'
-
-      - name: Configure HTTP to HTTPS redirect for S3 Website
-        run: |
-          # Create a JSON file with redirect rules
-          cat > redirect-rules.json << 'EOF'
-          {
-            "RoutingRules": [
-              {
-                "Condition": {
-                  "HttpErrorCodeReturnedEquals": "403"
-                },
-                "Redirect": {
-                  "Protocol": "https",
-                  "HostName": "${{ secrets.AWS_S3_BUCKET_DOMAIN || 'www.riccardorizzo.eu' }}",
-                  "ReplaceKeyWith": "index.html"
-                }
-              },
-              {
-                "Condition": {
-                  "KeyPrefixEquals": ""
-                },
-                "Redirect": {
-                  "Protocol": "https",
-                  "HostName": "${{ secrets.AWS_S3_BUCKET_DOMAIN || 'www.riccardorizzo.eu' }}",
-                  "ReplaceKeyWith": ""
-                }
-              }
-            ]
-          }
-          EOF
-
-          # Apply the redirect rules to S3 bucket website configuration
-          aws s3api put-bucket-website --bucket ${{ secrets.AWS_S3_BUCKET }} --website-configuration file://redirect-rules.json || echo "Could not set redirect rules, possibly due to permissions or bucket configuration"
 
       - name: Set Security Headers for CloudFront
         if: ${{ env.CLOUDFRONT_ENABLED == 'true' }}
