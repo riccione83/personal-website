@@ -9,26 +9,44 @@
 
   body {
     @apply font-sans antialiased bg-background text-foreground;
+    /* iOS Safari height fix */
+    min-height: -webkit-fill-available;
+  }
+
+  html {
+    /* iOS Safari height fix */
+    height: -webkit-fill-available;
   }
 }
 
-/* Add at the top of the file - CLS prevention */
+/* Updated image styles for better Safari compatibility */
 img {
-  aspect-ratio: attr(width) / attr(height);
+  max-width: 100%;
+  height: auto;
+  /* Safari fix for aspect-ratio */
+  display: block;
 }
 
-/* Apply minimum heights to prevent layout shifts */
+/* Add explicit width/height to containers rather than relying on aspect-ratio */
 section {
   min-height: 300px;
 }
 
-/* Card images */
+/* Card images with explicit dimensions */
 .card-image-container {
   min-height: 192px;
-  aspect-ratio: 2/1;
+  /* Safari fallback for aspect ratio */
+  position: relative;
+  width: 100%;
+  height: 0;
+  padding-bottom: 50%; /* 2:1 aspect ratio */
 }
 
 .book-image-container {
   min-height: 300px;
-  aspect-ratio: 3/4;
+  /* Safari fallback for aspect ratio */
+  position: relative;
+  width: 100%;
+  height: 0;
+  padding-bottom: 133.33%; /* 3:4 aspect ratio */
 }
