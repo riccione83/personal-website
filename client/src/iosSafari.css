@@ -1,0 +1,60 @@
+/* iOS Safari Mobile-specific CSS */
+
+/* General fixes */
+.ios-mobile {
+  -webkit-text-size-adjust: 100%;
+  overflow-x: hidden !important;
+}
+
+.ios-mobile-body {
+  overflow-x: hidden !important;
+  position: relative !important;
+  -webkit-overflow-scrolling: touch !important;
+}
+
+/* Use the custom viewport height variable */
+.ios-mobile #root {
+  min-height: 100vh; /* Fallback */
+  min-height: calc(var(--vh, 1vh) * 100);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Fix for scrolling containers */
+.ios-mobile [class*="overflow-"] {
+  -webkit-overflow-scrolling: touch !important;
+}
+
+/* Fix for flex containers */
+.ios-mobile [class*="flex-"] {
+  display: flex !important;
+}
+
+/* Ensure images display properly */
+.ios-mobile img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Prevent fixed position issues */
+@media (max-width: 768px) {
+  .ios-mobile .fixed,
+  .ios-mobile [class*="fixed-"],
+  .ios-mobile [style*="position: fixed"],
+  .ios-mobile [style*="position:fixed"] {
+    position: absolute !important;
+  }
+
+  /* Improve tap targets for mobile */
+  .ios-mobile button,
+  .ios-mobile a {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Force hardware acceleration */
+  .ios-mobile * {
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+  }
+}

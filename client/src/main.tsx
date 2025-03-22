@@ -4,6 +4,8 @@ import App from "./App";
 import "./index.css";
 // Import iOS Safari fixes
 import "./iosFix";
+// Import iOS Safari specific CSS
+import "./iosSafari.css";
 
 // Add polyfill for iOS Safari
 if (typeof window !== "undefined") {
