@@ -5,17 +5,24 @@
 @layer base {
   * {
     @apply border-border;
+    -webkit-tap-highlight-color: transparent;
   }
 
   body {
     @apply font-sans antialiased bg-background text-foreground;
     /* iOS Safari height fix */
     min-height: -webkit-fill-available;
+    /* Prevent overscroll/bounce effect on iOS */
+    width: 100%;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
   }
 
   html {
     /* iOS Safari height fix */
     height: -webkit-fill-available;
+    /* Ensure proper HTTPS rendering */
+    touch-action: manipulation;
   }
 }
 
@@ -25,6 +32,9 @@ img {
   height: auto;
   /* Safari fix for aspect-ratio */
   display: block;
+  /* Prevent iOS Safari image issues */
+  -webkit-backface-visibility: hidden;
+  -webkit-transform: translateZ(0);
 }
 
 /* Add explicit width/height to containers rather than relying on aspect-ratio */

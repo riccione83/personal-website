@@ -174,10 +174,15 @@ export default defineConfig({
   preview: {
     open: true,
     port: 4173,
-    // Remove incorrect Content-Encoding header that's causing decompression issues
+    // Add headers for better HTTPS compatibility
     headers: {
       "Cache-Control": "public, max-age=31536000",
       "X-Content-Type-Options": "nosniff",
+      "Strict-Transport-Security":
+        "max-age=63072000; includeSubDomains; preload",
+      "X-Frame-Options": "DENY",
+      "Access-Control-Allow-Origin": "*",
+      Vary: "Accept-Encoding",
     },
   },
   // Optimize asset handling
