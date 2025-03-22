@@ -58,6 +58,31 @@ jobs:
             --metadata-directive REPLACE \
             --cache-control "public, max-age=0, must-revalidate"
 
+      - name: Set XML sitemap content type
+        run: |
+          # Set sitemap.xml with proper content type
+          aws s3 cp s3://${{ secrets.AWS_S3_BUCKET }}/sitemap.xml s3://${{ secrets.AWS_S3_BUCKET }}/sitemap.xml \
+            --content-type "application/xml; charset=UTF-8" \
+            --metadata-directive REPLACE \
+            --cache-control "public, max-age=86400"
+            
+          # Set compressed versions with proper content type and encoding
+          if [ -f "dist/sitemap.xml.gz" ]; then
+            aws s3 cp dist/sitemap.xml.gz s3://${{ secrets.AWS_S3_BUCKET }}/sitemap.xml.gz \
+              --content-type "application/xml; charset=UTF-8" \
+              --content-encoding "gzip" \
+              --metadata-directive REPLACE \
+              --cache-control "public, max-age=86400"
+          fi
+
+          if [ -f "dist/sitemap.xml.br" ]; then
+            aws s3 cp dist/sitemap.xml.br s3://${{ secrets.AWS_S3_BUCKET }}/sitemap.xml.br \
+              --content-type "application/xml; charset=UTF-8" \
+              --content-encoding "br" \
+              --metadata-directive REPLACE \
+              --cache-control "public, max-age=86400"
+          fi
+
       - name: Upload compressed JS files
         run: |
           # Upload JS files with correct content-type and encoding
