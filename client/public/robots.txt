@@ -2,5 +2,13 @@
 User-agent: *
 Allow: /
 
+# Disallow crawling of any potential admin or private areas
+Disallow: /admin/
+Disallow: /private/
+Disallow: /api/
+
 # Sitemap location
-Sitemap: https://www.riccardorizzo.eu/sitemap.xml 
+Sitemap: https://www.riccardorizzo.eu/sitemap.xml
+
+# Crawl-delay for respectful crawling
+Crawl-delay: 1 
