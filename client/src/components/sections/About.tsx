@@ -1,6 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { motion } from "framer-motion";
 import { SkillsGraph } from "./SkillsGraph";
+import { NowBuilding } from "./NowBuilding";
 
 export function About() {
   return (
@@ -23,16 +24,16 @@ export function About() {
             className="text-center md:text-left"
           >
             <p className="text-lg text-muted-foreground mb-6">
-              I'm a software engineer passionate about building modern web
-              applications and innovative solutions. I specialise in creating
-              scalable, efficient systems using cutting-edge technologies.
+              I am an Engineering Manager and hands-on technical leader with a
+              background across web, mobile, and backend systems. I focus on
+              shipping products that are reliable, maintainable, and measurable
+              in business impact.
             </p>
             <p className="text-lg text-muted-foreground mb-6">
-              My journey in technology began at the age of 8 when I wrote my
-              first lines of code. This early passion for programming has
-              evolved into a lifelong pursuit of technical excellence. Since
-              then, I've worked with various startups and enterprises, helping
-              them build robust and efficient systems.
+              Over the years I have grown and mentored engineering teams,
+              improved delivery processes, and supported product strategy in
+              fast-moving environments. I enjoy bridging leadership and
+              execution to help teams move faster without sacrificing quality.
             </p>
           </motion.div>
           <motion.div
@@ -47,25 +48,27 @@ export function About() {
                   Professional Overview
                 </h3>
                 <ul className="space-y-2 text-muted-foreground">
-                  <li>• Full-stack development with modern frameworks</li>
-                  <li>• Cloud architecture and deployment</li>
-                  <li>• Performance optimisation and scaling</li>
-                  <li>• Team leadership and mentoring</li>
+                  <li>• Engineering leadership and team growth</li>
+                  <li>• React, TypeScript, Node.js and cloud architecture</li>
+                  <li>• Product-minded delivery with measurable outcomes</li>
+                  <li>• Hiring, coaching, and cross-functional collaboration</li>
                 </ul>
               </CardContent>
             </Card>
           </motion.div>
         </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="w-full max-w-4xl"
-        >
-          <SkillsGraph />
-        </motion.div>
+        <div className="w-full max-w-4xl">
+          <NowBuilding />
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <SkillsGraph />
+          </motion.div>
+        </div>
       </div>
     </section>
   );

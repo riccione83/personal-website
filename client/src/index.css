@@ -9,6 +9,7 @@ html {
   width: 100%;
   overflow-x: hidden;
   touch-action: manipulation;
+  scroll-behavior: smooth;
 }
 
 body {
@@ -55,6 +56,7 @@ img {
 /* Add explicit width/height to containers rather than relying on aspect-ratio */
 section {
   min-height: 300px;
+  scroll-margin-top: 84px;
 }
 
 /* Card images with explicit dimensions */

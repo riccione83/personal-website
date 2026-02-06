@@ -14,7 +14,7 @@ const publications = [
     subtitle: "2017 Amazon",
     link: "https://www.amazon.co.uk/Sicurezza-Informatica-Riccardo/dp/8826491836/ref=sr_1_1?crid=LC5BKRYYZ2ZQ&keywords=riccardo+rizzo&qid=1697874527&sprefix=riccardo+rizzo%2Caps%2C70&sr=8-1",
     image: "https://m.media-amazon.com/images/I/41yzrRyk1cL._SY522_.jpg",
-    date: "2017-25-10",
+    date: "2017-10-25",
     desc: "This book offers insights and reflections to help the reader embark on a career in one of the most important fields of the 21st century. Topics related to information security are covered, starting from IT security up to the security of code and mobile devices.",
     type: "book",
   },
@@ -30,7 +30,7 @@ const publications = [
   {
     title: "Easy use of realm in swift",
     subtitle: "Medium.com",
-    link: "http://bit.ly/2v2ocXp",
+    link: "https://bit.ly/2v2ocXp",
     image: "/images/medium/swift-realm.jpeg",
     date: "2017-07-15",
     desc: "Tutorial on how to implement a high-speed and robust support for persistent data in a mobile application",
@@ -39,7 +39,7 @@ const publications = [
   {
     title: "Swift Extension",
     subtitle: "Medium.com",
-    link: "http://bit.ly/2trpWct",
+    link: "https://bit.ly/2trpWct",
     image: "/images/medium/swift-extension.jpeg",
     date: "2017-07-15",
     desc: "Tutorial about Swift extensions",
@@ -48,7 +48,7 @@ const publications = [
   {
     title: "iOS Protocols",
     subtitle: "Medium.com",
-    link: "http://bit.ly/2tswO9w",
+    link: "https://bit.ly/2tswO9w",
     image: "/images/medium/swift-extension.jpeg",
     date: "2017-07-15",
     desc: "Tutorial about iOS protocols",
@@ -70,7 +70,7 @@ export function Portfolio() {
     <section id="portfolio" className="py-16 md:py-24">
       <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8 flex flex-col items-center">
         <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
-          Publications
+          Publications & Writing
         </h2>
 
         {/* Books Section */}
@@ -115,6 +115,7 @@ export function Portfolio() {
                             target="_blank"
                             rel="noopener noreferrer"
                             className="inline-flex items-center gap-2 text-primary hover:text-primary/80 transition-colors"
+                            aria-label={`Open ${publication.title}`}
                           >
                             <SiAmazon className="h-5 w-5" />
                             <span>View on Amazon</span>
@@ -169,6 +170,7 @@ export function Portfolio() {
                         target="_blank"
                         rel="noopener noreferrer"
                         className="inline-flex items-center gap-2 text-primary hover:text-primary/80 transition-colors"
+                        aria-label={`Open ${publication.title}`}
                       >
                         {publication.subtitle
                           .toLowerCase()

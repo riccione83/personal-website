@@ -1,26 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { ArrowDown } from "lucide-react";
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useEffect, useState, memo } from "react";
-
-// Memoized component to reduce re-renders
-const FloatingElement = memo(
-  ({ delay = 0, children }: { delay?: number; children: React.ReactNode }) => (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{
-        delay,
-        duration: 0.8,
-      }}
-    >
-      {children}
-    </motion.div>
-  )
-);
-
-FloatingElement.displayName = "FloatingElement";
+import { motion } from "framer-motion";
+import { memo } from "react";
 
 // Optimize background pattern for performance
 const BackgroundPattern = memo(() => {
@@ -49,15 +31,6 @@ const BackgroundPattern = memo(() => {
 BackgroundPattern.displayName = "BackgroundPattern";
 
 export function Hero() {
-  const [text, setText] = useState(
-    "A passionate software engineer specialising in web development and cloud architecture"
-  );
-  const { scrollY } = useScroll();
-
-  const y = useTransform(scrollY, [0, 500], [0, 200]);
-  const opacity = useTransform(scrollY, [0, 300], [1, 0]);
-  const scale = useTransform(scrollY, [0, 300], [1, 0.8]);
-
   return (
     <section
       id="home"
@@ -98,17 +71,24 @@ export function Hero() {
                   Hello, I'm Riccardo
                 </span>
               </h1>
+              <p className="mt-4 text-base md:text-lg text-muted-foreground max-w-2xl mx-auto">
+                Engineering Manager and Technical Lead building high-performing
+                teams and scalable products with React, TypeScript, Node.js,
+                and cloud platforms.
+              </p>
             </div>
           </div>
 
-          <div>
-            <p
-              className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-2xl mx-auto"
-              style={{ height: "80px", minHeight: "80px" }}
-            >
-              {text}
-              <span className="animate-pulse">|</span>
-            </p>
+          <div className="mb-8 flex flex-wrap justify-center gap-2">
+            <span className="rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-sm text-muted-foreground">
+              20+ years in software
+            </span>
+            <span className="rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-sm text-muted-foreground">
+              London, UK
+            </span>
+            <span className="rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-sm text-muted-foreground">
+              Open to impactful roles
+            </span>
           </div>
 
           <div
@@ -131,8 +111,8 @@ export function Hero() {
               className="hover:scale-105 transition-transform relative overflow-hidden group"
               asChild
             >
-              <a href="#contact">
-                <span className="relative z-10">Get in Touch</span>
+              <a href="mailto:rizzo.riccardo.83@gmail.com">
+                <span className="relative z-10">Email Me</span>
                 <div className="absolute inset-0 bg-primary/10" />
               </a>
             </Button>

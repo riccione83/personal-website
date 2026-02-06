@@ -1,24 +1,31 @@
 import React from "react";
 
-// Organization schema for your personal brand
-export const OrganizationSchema = () => {
+export const PersonSchema = () => {
   const personData = {
     "@context": "https://schema.org",
     "@type": "Person",
     name: "Riccardo Rizzo",
     url: "https://www.riccardorizzo.eu",
     image: "https://www.riccardorizzo.eu/images/riky_squared.jpg",
+    email: "mailto:rizzo.riccardo.83@gmail.com",
     sameAs: [
-      "https://www.linkedin.com/in/riccardorizzo/",
-      "https://github.com/rrizzo",
+      "https://www.linkedin.com/in/rikyrizzo/",
+      "https://github.com/riccione83",
+      "https://x.com/riccione83",
     ],
-    jobTitle: "Software Engineer",
+    jobTitle: "Engineering Manager",
     worksFor: {
       "@type": "Organization",
-      name: "Tech Industry",
+      name: "Togather",
+      url: "https://www.togather.com",
     },
     description:
-      "Software engineer specialising in web development and cloud architecture, building modern and scalable applications.",
+      "Engineering Manager and Technical Lead specialised in web development, cloud architecture, and high-performing engineering teams.",
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: "London",
+      addressCountry: "UK",
+    },
   };
 
   return (
@@ -29,60 +36,34 @@ export const OrganizationSchema = () => {
   );
 };
 
-// Job posting schema for career opportunities
-export const JobPostingSchema = () => {
-  const today = new Date();
-  const sixMonthsFromNow = new Date();
-  sixMonthsFromNow.setMonth(today.getMonth() + 6);
-
-  const jobData = {
+export const WebSiteSchema = () => {
+  const websiteData = {
     "@context": "https://schema.org",
-    "@type": "JobPosting",
-    title: "Engineering Leadership - CTO, Engineering Manager, Co-founder",
+    "@type": "WebSite",
+    name: "Riccardo Rizzo",
+    url: "https://www.riccardorizzo.eu",
+    inLanguage: "en-GB",
     description:
-      "Open to opportunities in high-impact engineering leadership roles including CTO, VP of Engineering, Engineering Manager, or technical Co-founder positions. Offering extensive experience in scaling engineering teams, implementing robust technical architectures, and driving product innovation.",
-    datePosted: today.toISOString().split("T")[0],
-    validThrough: sixMonthsFromNow.toISOString().split("T")[0],
-    employmentType: "FULL_TIME",
-    hiringOrganization: {
-      "@type": "Organization",
-      name: "Open to Opportunities",
-      sameAs: "https://www.riccardorizzo.eu",
-    },
-    jobLocation: {
-      "@type": "Place",
-      address: {
-        "@type": "PostalAddress",
-        addressCountry: "United Kingdom",
-        addressLocality: "London",
-      },
-    },
-    baseSalary: {
-      "@type": "MonetaryAmount",
-      currency: "GBP",
-      value: {
-        "@type": "QuantitativeValue",
-        minValue: 120000,
-        maxValue: 180000,
-        unitText: "YEAR",
-      },
+      "Personal website of Riccardo Rizzo, Engineering Manager and Technical Lead focused on product delivery and team growth.",
+    publisher: {
+      "@type": "Person",
+      name: "Riccardo Rizzo",
     },
   };
 
   return (
     <script
       type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(jobData) }}
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteData) }}
     />
   );
 };
 
-// Default export for all structured data
 export default function StructuredData() {
   return (
     <>
-      <OrganizationSchema />
-      <JobPostingSchema />
+      <PersonSchema />
+      <WebSiteSchema />
     </>
   );
 }

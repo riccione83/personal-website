@@ -15,6 +15,11 @@ const Portfolio = lazy(() =>
     default: module.Portfolio,
   }))
 );
+const Blog = lazy(() =>
+  import("@/components/sections/Blog").then((module) => ({
+    default: module.Blog,
+  }))
+);
 const Experience = lazy(() =>
   import("@/components/sections/Experience").then((module) => ({
     default: module.Experience,
@@ -35,21 +40,11 @@ export default function Home() {
         <Hero />
 
         <Suspense fallback={<div className="h-screen"></div>}>
-          <section id="about">
-            <About />
-          </section>
-
-          <section id="experience">
-            <Experience />
-          </section>
-
-          <section id="portfolio">
-            <Portfolio />
-          </section>
-
-          <section id="contact">
-            <Contact />
-          </section>
+          <About />
+          <Experience />
+          <Portfolio />
+          <Blog />
+          <Contact />
         </Suspense>
       </main>
       <Footer />
