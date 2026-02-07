@@ -24,7 +24,7 @@ const socialLinks = {
 
 export function Contact() {
   return (
-    <section id="contact" className="py-16 md:py-24 bg-muted/30">
+    <section id="contact" className="pt-16 md:pt-20 pb-6 md:pb-8 bg-muted/30">
       <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8 flex flex-col items-center">
         <motion.h2
           initial={{ opacity: 0, y: 20 }}

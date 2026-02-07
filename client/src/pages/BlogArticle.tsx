@@ -10,9 +10,9 @@ export default function BlogArticlePage() {
 
   if (!article) {
     return (
-      <div className="min-h-screen">
+      <div className="min-h-screen flex flex-col">
         <Navigation />
-        <main className="pt-24 pb-16">
+        <main className="flex-1 pt-24 pb-10 md:pb-12">
           <section className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 text-center">
             <h1 className="text-3xl font-bold">Article not found</h1>
             <p className="mt-3 text-muted-foreground">
@@ -32,9 +32,9 @@ export default function BlogArticlePage() {
   }
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen flex flex-col">
       <Navigation />
-      <main className="pt-24 pb-16">
+      <main className="flex-1 pt-24 pb-10 md:pb-12">
         <article className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
           <Link
             href="/blog"

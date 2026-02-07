@@ -33,17 +33,17 @@ const Contact = lazy(() =>
 
 export default function Home() {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen flex flex-col">
       <ScrollProgress />
       <Navigation />
-      <main>
+      <main className="flex-1">
         <Hero />
 
         <Suspense fallback={<div className="h-screen"></div>}>
           <About />
+          <Blog />
           <Experience />
           <Portfolio />
-          <Blog />
           <Contact />
         </Suspense>
       </main>

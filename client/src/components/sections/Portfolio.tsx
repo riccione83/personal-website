@@ -1,14 +1,26 @@
+import { useMemo, useState } from "react";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 import { FaExternalLinkAlt } from "react-icons/fa";
 import { SiAmazon, SiMedium } from "react-icons/si";
 
-const publications = [
+type PublicationType = "book" | "article";
+
+interface Publication {
+  title: string;
+  subtitle: string;
+  link: string;
+  image: string;
+  date: string;
+  desc: string;
+  type: PublicationType;
+}
+
+const publications: Publication[] = [
   {
     title: "La Sicurezza Informatica",
     subtitle: "2017 Amazon",
@@ -65,127 +77,109 @@ const publications = [
   },
 ];
 
+const FILTERS: Array<{ label: string; value: "all" | PublicationType }> = [
+  { label: "All", value: "all" },
+  { label: "Books", value: "book" },
+  { label: "Articles", value: "article" },
+];
+
+function getTimestamp(date: string) {
+  const parsed = Date.parse(date);
+  return Number.isNaN(parsed) ? Date.parse(`${date}-01-01`) || 0 : parsed;
+}
+
 export function Portfolio() {
+  const [filter, setFilter] = useState<"all" | PublicationType>("all");
+
+  const visiblePublications = useMemo(
+    () =>
+      publications
+        .filter((publication) =>
+          filter === "all" ? true : publication.type === filter
+        )
+        .sort((a, b) => getTimestamp(b.date) - getTimestamp(a.date)),
+    [filter]
+  );
+
   return (
     <section id="portfolio" className="py-16 md:py-24">
       <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8 flex flex-col items-center">
-        <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
+        <h2 className="text-3xl md:text-4xl font-bold text-center">
           Publications & Writing
         </h2>
+        <p className="mt-3 text-center text-muted-foreground max-w-2xl">
+          Books, technical articles, and long-form writing on software
+          engineering, AI, and product development.
+        </p>
 
-        {/* Books Section */}
-        <div className="mb-16 w-full max-w-4xl">
-          <h3 className="text-2xl font-semibold mb-8">Books</h3>
-          <div className="grid md:grid-cols-2 gap-8">
-            {publications
-              .filter((pub) => pub.type === "book")
-              .map((publication) => (
-                <div key={publication.title}>
-                  <Card className="overflow-hidden h-full hover:shadow-lg transition-shadow duration-300">
-                    <div className="grid md:grid-cols-[200px,1fr] gap-6">
-                      <div
-                        className="relative overflow-hidden"
-                        style={{ width: "200px", height: "300px" }}
-                      >
-                        <img
-                          src={publication.image}
-                          alt={publication.title}
-                          className="w-full h-full object-cover"
-                          loading="lazy"
-                          width="200"
-                          height="300"
-                          style={{ aspectRatio: "3/4" }}
-                        />
-                      </div>
-                      <div className="p-6">
-                        <CardHeader className="p-0">
-                          <CardTitle className="text-xl mb-2">
-                            {publication.title}
-                          </CardTitle>
-                          <CardDescription>
-                            {publication.subtitle}
-                          </CardDescription>
-                        </CardHeader>
-                        <CardContent className="p-0 mt-4">
-                          <p className="text-sm text-muted-foreground mb-4 line-clamp-3">
-                            {publication.desc}
-                          </p>
-                          <a
-                            href={publication.link}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center gap-2 text-primary hover:text-primary/80 transition-colors"
-                            aria-label={`Open ${publication.title}`}
-                          >
-                            <SiAmazon className="h-5 w-5" />
-                            <span>View on Amazon</span>
-                          </a>
-                        </CardContent>
-                      </div>
-                    </div>
-                  </Card>
-                </div>
-              ))}
-          </div>
+        <div className="mt-8 mb-10 flex flex-wrap items-center justify-center gap-2">
+          {FILTERS.map((item) => (
+            <button
+              key={item.value}
+              onClick={() => setFilter(item.value)}
+              className={`rounded-full border px-4 py-1.5 text-sm transition-colors ${
+                filter === item.value
+                  ? "border-primary bg-primary text-primary-foreground"
+                  : "border-primary/20 bg-primary/[0.03] hover:bg-primary/[0.08]"
+              }`}
+            >
+              {item.label}
+            </button>
+          ))}
         </div>
 
-        {/* Articles Section */}
-        <div>
-          <h3 className="text-2xl font-semibold mb-8">Articles & Blogs</h3>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {publications
-              .filter((pub) => pub.type === "article")
-              .map((publication) => (
-                <div key={publication.title}>
-                  <Card className="overflow-hidden h-full hover:shadow-lg transition-shadow duration-300">
-                    <div
-                      style={{
-                        width: "100%",
-                        height: "192px",
-                        position: "relative",
-                      }}
-                    >
-                      <img
-                        src={publication.image}
-                        alt={publication.title}
-                        className="w-full h-48 object-cover"
-                        loading="lazy"
-                        width="400"
-                        height="192"
-                        style={{ aspectRatio: "2/1" }}
-                      />
-                    </div>
-                    <CardHeader>
-                      <CardTitle className="text-lg">
-                        {publication.title}
-                      </CardTitle>
-                      <CardDescription>{publication.subtitle}</CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                      <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
-                        {publication.desc}
-                      </p>
-                      <a
-                        href={publication.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 text-primary hover:text-primary/80 transition-colors"
-                        aria-label={`Open ${publication.title}`}
-                      >
-                        {publication.subtitle
-                          .toLowerCase()
-                          .includes("medium") ? (
-                          <SiMedium className="h-5 w-5" />
-                        ) : (
-                          <FaExternalLinkAlt className="h-4 w-4" />
-                        )}
-                        <span>Read Article</span>
-                      </a>
-                    </CardContent>
-                  </Card>
+        <div className="w-full max-w-5xl grid gap-6 md:grid-cols-2">
+          {visiblePublications.map((publication) => (
+            <Card
+              key={publication.title}
+              className="overflow-hidden h-full border-primary/10 hover:shadow-lg transition-shadow duration-300"
+            >
+              <div className="relative h-52 bg-muted/40">
+                <img
+                  src={publication.image}
+                  alt={publication.title}
+                  className="w-full h-full object-cover"
+                  loading="lazy"
+                  width="640"
+                  height="320"
+                />
+                <div className="absolute top-3 left-3 rounded-full border border-primary/20 bg-background/90 px-2.5 py-1 text-xs font-medium">
+                  {publication.type === "book" ? "Book" : "Article"}
                 </div>
-              ))}
-          </div>
+              </div>
+              <CardHeader>
+                <p className="text-xs uppercase tracking-wide text-primary/70">
+                  {publication.subtitle} • {publication.date.slice(0, 4)}
+                </p>
+                <CardTitle className="text-xl leading-snug">
+                  {publication.title}
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="pt-0">
+                <p className="text-sm text-muted-foreground mb-4 line-clamp-3">
+                  {publication.desc}
+                </p>
+                <a
+                  href={publication.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 text-primary hover:text-primary/80 transition-colors"
+                  aria-label={`Open ${publication.title}`}
+                >
+                  {publication.subtitle.toLowerCase().includes("amazon") ? (
+                    <SiAmazon className="h-5 w-5" />
+                  ) : publication.subtitle.toLowerCase().includes("medium") ? (
+                    <SiMedium className="h-5 w-5" />
+                  ) : (
+                    <FaExternalLinkAlt className="h-4 w-4" />
+                  )}
+                  <span>
+                    {publication.type === "book" ? "View Book" : "Read Article"}
+                  </span>
+                </a>
+              </CardContent>
+            </Card>
+          ))}
         </div>
       </div>
     </section>
