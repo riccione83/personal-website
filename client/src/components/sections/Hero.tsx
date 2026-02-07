@@ -3,9 +3,9 @@ import { Button } from "@/components/ui/button";
 import { ArrowDown } from "lucide-react";
 
 const highlights = [
-  { label: "Years in software", value: "20+" },
-  { label: "Teams scaled", value: "4 -> 18" },
-  { label: "Core focus", value: "Engineering Leadership" },
+  { label: "AI product delivery", value: "From idea to production" },
+  { label: "Leadership style", value: "Hands-on, high standards" },
+  { label: "Systems thinking", value: "Scalable by design" },
 ];
 
 export function Hero() {
