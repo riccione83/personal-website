@@ -1,129 +1,92 @@
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { ArrowDown } from "lucide-react";
-import { motion } from "framer-motion";
-import { memo } from "react";
 
-// Optimize background pattern for performance
-const BackgroundPattern = memo(() => {
-  return (
-    <div className="absolute inset-0 overflow-hidden -z-10 opacity-20">
-      <div
-        className="absolute rounded-full bg-primary/20"
-        style={{ width: 100, height: 100, left: "20%", top: "20%" }}
-      />
-      <div
-        className="absolute rounded-full bg-primary/20"
-        style={{ width: 80, height: 80, left: "70%", top: "30%" }}
-      />
-      <div
-        className="absolute rounded-full bg-primary/20"
-        style={{ width: 120, height: 120, left: "80%", top: "60%" }}
-      />
-      <div
-        className="absolute rounded-full bg-primary/20"
-        style={{ width: 90, height: 90, left: "10%", top: "70%" }}
-      />
-    </div>
-  );
-});
-
-BackgroundPattern.displayName = "BackgroundPattern";
+const highlights = [
+  { label: "Years in software", value: "20+" },
+  { label: "Teams scaled", value: "4 -> 18" },
+  { label: "Core focus", value: "Engineering Leadership" },
+];
 
 export function Hero() {
   return (
     <section
       id="home"
-      className="min-h-screen flex items-center justify-center pt-16 relative overflow-hidden"
-      style={{ height: "100vh", maxHeight: "900px" }}
+      className="relative min-h-[86vh] pt-24 pb-14 md:pb-20 flex items-center"
     >
-      <BackgroundPattern />
-      <div
-        className="container px-4 py-16 md:py-24 relative"
-        style={{ transform: "translateY(0)", opacity: 1 }}
-      >
-        <div className="text-center">
-          <div className="flex flex-col items-center justify-center gap-6 mb-8">
-            <div
-              className="relative"
-              style={{ width: "160px", height: "160px" }}
-            >
-              <Avatar className="w-40 h-40 border-4 border-primary/20 shadow-lg">
+      <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8 w-full">
+        <div className="grid gap-10 lg:grid-cols-[1.2fr,0.8fr] items-center">
+          <div>
+            <p className="inline-flex items-center rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-xs font-medium uppercase tracking-wide text-primary/80">
+              London-based | Engineering leadership in product teams
+            </p>
+            <h1 className="mt-5 text-4xl md:text-6xl font-semibold leading-tight">
+              Engineering Manager and Technical Lead building
+              <span className="text-primary"> high-performing teams</span> and
+              scalable products.
+            </h1>
+            <p className="mt-5 max-w-2xl text-base md:text-lg text-muted-foreground">
+              I help product organizations ship faster with better engineering
+              quality. My work spans frontend, backend, cloud architecture, and
+              team development in fast growth environments.
+            </p>
+            <p className="mt-4 max-w-2xl text-sm md:text-base text-muted-foreground">
+              I enjoy working on AI-first and research-driven products with a
+              high technical bar, especially where execution quality and
+              long-term platform thinking matter.
+            </p>
+
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Button size="lg" asChild>
+                <a href="#experience">View Impact</a>
+              </Button>
+              <Button size="lg" variant="outline" asChild>
+                <a href="mailto:rizzo.riccardo.83@gmail.com">Contact Me</a>
+              </Button>
+            </div>
+          </div>
+
+          <div className="rounded-2xl border border-primary/15 bg-card/80 p-6 md:p-8 shadow-lg">
+            <div className="flex items-center gap-4">
+              <Avatar className="h-20 w-20 border border-primary/20">
                 <AvatarImage
                   src="/images/riky_squared.jpg"
-                  alt="Riccardo"
-                  className="object-cover"
+                  alt="Riccardo Rizzo"
                   loading="eager"
-                  fetchPriority="high"
-                  width="160"
-                  height="160"
                 />
                 <AvatarFallback>RR</AvatarFallback>
               </Avatar>
-              <div className="absolute -inset-1 rounded-full bg-gradient-to-r from-primary/20 to-primary/40 -z-10" />
+              <div>
+                <p className="font-semibold text-lg">Riccardo Rizzo</p>
+                <p className="text-sm text-muted-foreground">
+                  Tech Lead • Engineering Manager
+                </p>
+              </div>
             </div>
-            <div>
-              <h1
-                className="text-4xl md:text-6xl font-bold"
-                style={{ minHeight: "60px" }}
-              >
-                <span className="bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
-                  Hello, I'm Riccardo
-                </span>
-              </h1>
-              <p className="mt-4 text-base md:text-lg text-muted-foreground max-w-2xl mx-auto">
-                Engineering Manager and Technical Lead building high-performing
-                teams and scalable products with React, TypeScript, Node.js,
-                and cloud platforms.
-              </p>
+
+            <div className="mt-6 grid gap-3">
+              {highlights.map((item) => (
+                <div
+                  key={item.label}
+                  className="rounded-lg border border-primary/10 bg-primary/[0.03] px-4 py-3"
+                >
+                  <p className="text-xs uppercase tracking-wide text-primary/70">
+                    {item.label}
+                  </p>
+                  <p className="mt-1 font-semibold">{item.value}</p>
+                </div>
+              ))}
             </div>
           </div>
+        </div>
 
-          <div className="mb-8 flex flex-wrap justify-center gap-2">
-            <span className="rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-sm text-muted-foreground">
-              20+ years in software
-            </span>
-            <span className="rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-sm text-muted-foreground">
-              London, UK
-            </span>
-            <span className="rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-sm text-muted-foreground">
-              Open to impactful roles
-            </span>
-          </div>
-
-          <div
-            className="flex flex-col sm:flex-row gap-4 justify-center"
-            style={{ minHeight: "48px" }}
-          >
-            <Button
-              size="lg"
-              className="hover:scale-105 transition-transform relative overflow-hidden group"
-              asChild
-            >
-              <a href="#portfolio">
-                <span className="relative z-10">View My Work</span>
-                <div className="absolute inset-0 bg-primary/20" />
-              </a>
-            </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              className="hover:scale-105 transition-transform relative overflow-hidden group"
-              asChild
-            >
-              <a href="mailto:rizzo.riccardo.83@gmail.com">
-                <span className="relative z-10">Email Me</span>
-                <div className="absolute inset-0 bg-primary/10" />
-              </a>
-            </Button>
-          </div>
-
+        <div className="mt-12 text-center">
           <a
             href="#about"
-            className="mt-16 inline-block"
             aria-label="Scroll to About section"
+            className="inline-flex items-center justify-center rounded-full border border-primary/20 p-2 text-muted-foreground hover:text-foreground transition-colors"
           >
-            <ArrowDown className="h-6 w-6 text-muted-foreground" />
+            <ArrowDown className="h-5 w-5" />
           </a>
         </div>
       </div>

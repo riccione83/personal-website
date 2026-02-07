@@ -1,5 +1,6 @@
 import { Footer } from "@/components/layout/Footer";
 import { Navigation } from "@/components/layout/Navigation";
+import { SEO } from "@/components/seo/SEO";
 import { getArticleBySlug } from "@/data/blog";
 import { ArrowLeft, ExternalLink } from "lucide-react";
 import { Link, useRoute } from "wouter";
@@ -11,6 +12,12 @@ export default function BlogArticlePage() {
   if (!article) {
     return (
       <div className="min-h-screen flex flex-col">
+        <SEO
+          title="Article not found | Riccardo Rizzo"
+          description="The requested blog article could not be found."
+          path="/blog"
+          type="website"
+        />
         <Navigation />
         <main className="flex-1 pt-24 pb-10 md:pb-12">
           <section className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 text-center">
@@ -33,6 +40,37 @@ export default function BlogArticlePage() {
 
   return (
     <div className="min-h-screen flex flex-col">
+      <SEO
+        title={`${article.title} | Riccardo Rizzo`}
+        description={article.excerpt}
+        path={`/blog/${article.slug}`}
+        image={article.coverImage || "/images/riky_squared.jpg"}
+        type="article"
+        publishedTime={article.date}
+        modifiedTime={article.date}
+        author={article.author || "Riccardo Rizzo"}
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          headline: article.title,
+          description: article.excerpt,
+          image: article.coverImage || "/images/riky_squared.jpg",
+          datePublished: article.date,
+          dateModified: article.date,
+          author: {
+            "@type": "Person",
+            name: article.author || "Riccardo Rizzo",
+          },
+          mainEntityOfPage: {
+            "@type": "WebPage",
+            "@id": `https://www.riccardorizzo.eu/blog/${article.slug}`,
+          },
+          publisher: {
+            "@type": "Person",
+            name: "Riccardo Rizzo",
+          },
+        }}
+      />
       <Navigation />
       <main className="flex-1 pt-24 pb-10 md:pb-12">
         <article className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">

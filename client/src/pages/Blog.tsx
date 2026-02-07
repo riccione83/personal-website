@@ -1,5 +1,6 @@
 import { Footer } from "@/components/layout/Footer";
 import { Navigation } from "@/components/layout/Navigation";
+import { SEO } from "@/components/seo/SEO";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { blogArticles } from "@/data/blog";
 import { Link } from "wouter";
@@ -7,6 +8,21 @@ import { Link } from "wouter";
 export default function BlogPage() {
   return (
     <div className="min-h-screen flex flex-col">
+      <SEO
+        title="Blog | Riccardo Rizzo"
+        description="Technical articles on AI engineering, software architecture, and engineering leadership by Riccardo Rizzo."
+        path="/blog"
+        image="/images/riky_squared.jpg"
+        type="website"
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "Blog",
+          name: "Riccardo Rizzo Blog",
+          url: "https://www.riccardorizzo.eu/blog",
+          description:
+            "Technical articles on AI engineering, software architecture, and engineering leadership.",
+        }}
+      />
       <Navigation />
       <main className="flex-1 pt-24 pb-10 md:pb-12">
         <section className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">

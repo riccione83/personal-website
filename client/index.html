@@ -27,17 +27,6 @@
         if (isIOS && isSafari && isMobile) {
           // Add classes immediately
           document.documentElement.classList.add("ios-mobile");
-          // Ensure proper viewport rendering
-          document.documentElement.style.height = "100%";
-          // Add failsafe for blank screen
-          window.addEventListener("load", function () {
-            setTimeout(function () {
-              document.body.style.display = "none";
-              setTimeout(function () {
-                document.body.style.display = "";
-              }, 0);
-            }, 300);
-          });
         }
       })();
     </script>

@@ -3,6 +3,7 @@ import { Navigation } from "@/components/layout/Navigation";
 import { Footer } from "@/components/layout/Footer";
 import { ScrollProgress } from "@/components/layout/ScrollProgress";
 import { Hero } from "@/components/sections/Hero";
+import { SEO } from "@/components/seo/SEO";
 
 // Lazily load components that aren't needed for initial render
 const About = lazy(() =>
@@ -34,6 +35,13 @@ const Contact = lazy(() =>
 export default function Home() {
   return (
     <div className="min-h-screen flex flex-col">
+      <SEO
+        title="Riccardo Rizzo | Engineering Manager & Technical Lead"
+        description="Engineering Manager and Technical Lead focused on scalable products, cloud architecture, and high-performing engineering teams."
+        path="/"
+        image="/images/riky_squared.jpg"
+        type="website"
+      />
       <ScrollProgress />
       <Navigation />
       <main className="flex-1">

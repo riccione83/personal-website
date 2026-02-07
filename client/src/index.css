@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -7,6 +9,7 @@ html {
   -webkit-text-size-adjust: 100%;
   min-height: 100%;
   width: 100%;
+  max-width: 100%;
   overflow-x: hidden;
   touch-action: manipulation;
   scroll-behavior: smooth;
@@ -16,6 +19,7 @@ body {
   margin: 0;
   padding: 0;
   width: 100%;
+  max-width: 100%;
   min-height: 100%;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -27,8 +31,11 @@ body {
 
 #root {
   min-height: 100vh;
+  width: 100%;
+  max-width: 100%;
   display: flex;
   flex-direction: column;
+  overflow-x: hidden;
 }
 
 @layer base {
@@ -38,7 +45,20 @@ body {
   }
 
   body {
-    @apply font-sans antialiased bg-background text-foreground;
+    @apply antialiased bg-background text-foreground;
+    font-family: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+    background-image:
+      radial-gradient(circle at 10% -10%, rgba(18, 120, 215, 0.08), transparent 45%),
+      radial-gradient(circle at 100% 0%, rgba(18, 120, 215, 0.05), transparent 35%);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: "Space Grotesk", "IBM Plex Sans", ui-sans-serif, system-ui,
+      sans-serif;
+    letter-spacing: -0.015em;
   }
 }
 
