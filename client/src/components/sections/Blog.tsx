@@ -3,6 +3,10 @@ import { Link } from "wouter";
 import { blogArticles } from "@/data/blog";
 
 export function Blog() {
+  const sortedArticles = [...blogArticles].sort((a, b) =>
+    b.date.localeCompare(a.date)
+  );
+
   return (
     <section id="blog" className="py-16 md:py-20">
       <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
@@ -14,7 +18,7 @@ export function Blog() {
         </div>
 
         <div className="mx-auto max-w-3xl">
-          {blogArticles.map((article) => (
+          {sortedArticles.map((article) => (
             <Card
               key={article.slug}
               className="border-primary/10 hover:shadow-md transition-shadow"

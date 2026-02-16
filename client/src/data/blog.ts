@@ -33,7 +33,7 @@ export const blogArticles: BlogArticle[] = [
     title:
       "From Scratch to Standard: How I Turned my Tiny-LLM into a 0.5B Reproducible, LM Studio-Ready Model",
     source: "LinkedIn Article",
-    date: "2026-02-14",
+    date: "2026-02-11",
     readTime: "4 min read",
     excerpt:
       "How the Tiny-LLM project evolved into a reproducible 0.5B pipeline, ready for practical local usage and LM Studio workflows.",
@@ -362,7 +362,7 @@ export const blogArticles: BlogArticle[] = [
         title: "1. Experimental Setup",
         paragraphs: [
           "I evaluated three versions of my local model:",
-          "All models were evaluated on the exact same prompt suite , designed to stress:",
+          "All models were evaluated on the exact same prompt suite, designed to stress:",
         ],
         bullets: [
           "Instruction hierarchy conflicts",
@@ -443,7 +443,7 @@ export const blogArticles: BlogArticle[] = [
       {
         title: "Prompt: Factual grounding",
         paragraphs: [
-          "where is Seoul? describe this city.",
+          "Where is Seoul? Describe this city.",
           "👉 3B shows factual drift",
           "👉 7B recovers correctness + adds descriptive quality",
         ],
@@ -456,7 +456,7 @@ export const blogArticles: BlogArticle[] = [
           "“Why did the computer go to the doctor? Because it had byte-sized problems!”",
           "Important point:",
           "I never trained the model on humour datasets",
-          "This is emergent behaviour :",
+          "This is emergent behaviour:",
         ],
         bullets: [
           "built on language priors",

@@ -6,6 +6,10 @@ import { blogArticles } from "@/data/blog";
 import { Link } from "wouter";
 
 export default function BlogPage() {
+  const sortedArticles = [...blogArticles].sort((a, b) =>
+    b.date.localeCompare(a.date)
+  );
+
   return (
     <div className="min-h-screen flex flex-col">
       <SEO
@@ -34,7 +38,7 @@ export default function BlogPage() {
           </header>
 
           <div className="mx-auto grid max-w-4xl gap-6">
-            {blogArticles.map((article) => (
+            {sortedArticles.map((article) => (
               <Card
                 key={article.slug}
                 className="border-primary/10 hover:shadow-md transition-shadow"
