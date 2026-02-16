@@ -1,4 +1,3 @@
 User-agent: *
 Allow: /
 Sitemap: https://www.riccardorizzo.eu/sitemap.xml
-Sitemap: https://riccardorizzo.eu/sitemap.xml
