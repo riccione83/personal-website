@@ -1,13 +1,71 @@
 import { Footer } from "@/components/layout/Footer";
 import { Navigation } from "@/components/layout/Navigation";
 import { SEO } from "@/components/seo/SEO";
+import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/use-toast";
 import { getArticleBySlug } from "@/data/blog";
-import { ArrowLeft, ExternalLink } from "lucide-react";
+import { trackEvent } from "@/lib/analytics";
+import { ArrowLeft, Copy, ExternalLink, Share2 } from "lucide-react";
+import { useEffect } from "react";
 import { Link, useRoute } from "wouter";
 
 export default function BlogArticlePage() {
   const [matched, params] = useRoute("/blog/:slug");
   const article = matched ? getArticleBySlug(params.slug) : undefined;
+  const { toast } = useToast();
+
+  useEffect(() => {
+    if (!article) return;
+    const ref = new URLSearchParams(window.location.search).get("ref");
+    if (ref === "share") {
+      trackEvent("share_visit", {
+        article_slug: article.slug,
+        source: "shared_link",
+      });
+    }
+  }, [article]);
+
+  const shareUrl = article
+    ? `https://www.riccardorizzo.eu/blog/${article.slug}?ref=share`
+    : "";
+
+  const handleCopyLink = async () => {
+    if (!article) return;
+
+    try {
+      await navigator.clipboard.writeText(shareUrl);
+      trackEvent("share_clicked", {
+        article_slug: article.slug,
+        method: "copy_link",
+      });
+      trackEvent("share_completed", {
+        article_slug: article.slug,
+        method: "copy_link",
+      });
+      toast({
+        title: "Link copied",
+        description: "Share it with your network.",
+      });
+    } catch {
+      toast({
+        title: "Copy failed",
+        description: "Please copy the URL from the address bar.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleShareOnX = () => {
+    if (!article) return;
+
+    const text = `Worth reading: ${article.title}`;
+    const intentUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(shareUrl)}`;
+    trackEvent("share_clicked", {
+      article_slug: article.slug,
+      method: "twitter",
+    });
+    window.open(intentUrl, "_blank", "noopener,noreferrer");
+  };
 
   if (!article) {
     return (
@@ -118,6 +176,33 @@ export default function BlogArticlePage() {
               loading="eager"
             />
           ) : null}
+
+          <div className="mt-8 rounded-xl border border-primary/10 bg-muted/30 p-4">
+            <p className="text-sm font-medium">Share this post</p>
+            <p className="mt-1 text-sm text-muted-foreground">
+              If this helped you, pass it to one engineer in your network.
+            </p>
+            <div className="mt-4 flex flex-wrap gap-3">
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={handleCopyLink}
+              >
+                <Copy className="h-4 w-4" />
+                Copy link
+              </Button>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={handleShareOnX}
+              >
+                <Share2 className="h-4 w-4" />
+                Share on X
+              </Button>
+            </div>
+          </div>
 
           <div className="prose prose-zinc dark:prose-invert mt-10 max-w-none">
             {article.sections.map((section) => (

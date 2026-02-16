@@ -1,9 +1,11 @@
 import { lazy, Suspense } from "react";
+import { useEffect } from "react";
 import { Navigation } from "@/components/layout/Navigation";
 import { Footer } from "@/components/layout/Footer";
 import { ScrollProgress } from "@/components/layout/ScrollProgress";
 import { Hero } from "@/components/sections/Hero";
 import { SEO } from "@/components/seo/SEO";
+import { trackEvent } from "@/lib/analytics";
 
 // Lazily load components that aren't needed for initial render
 const About = lazy(() =>
@@ -33,6 +35,13 @@ const Contact = lazy(() =>
 );
 
 export default function Home() {
+  useEffect(() => {
+    const ref = new URLSearchParams(window.location.search).get("ref");
+    if (ref === "profile_share") {
+      trackEvent("profile_share_visit", { source: "shared_link" });
+    }
+  }, []);
+
   return (
     <div className="min-h-screen flex flex-col">
       <SEO

@@ -1,14 +1,62 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { ArrowDown } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
+import { trackEvent } from "@/lib/analytics";
+import { ArrowDown, Copy, Share2 } from "lucide-react";
 
 const highlights = [
-  { label: "AI product delivery", value: "From idea to production" },
-  { label: "Leadership style", value: "Hands-on, high standards" },
-  { label: "Systems thinking", value: "Scalable by design" },
+  {
+    label: "AI product execution",
+    value: "From concept to measurable production impact",
+  },
+  {
+    label: "Leadership that ships",
+    value: "Hands-on when needed, strategic by default",
+  },
+  {
+    label: "Scalable systems thinking",
+    value: "Built for growth, reliability, and long-term velocity",
+  },
 ];
 
 export function Hero() {
+  const { toast } = useToast();
+  const profileShareUrl = "https://www.riccardorizzo.eu/?ref=profile_share";
+
+  const handleCopyProfileLink = async () => {
+    try {
+      await navigator.clipboard.writeText(profileShareUrl);
+      trackEvent("profile_share_clicked", { method: "copy_link" });
+      trackEvent("profile_share_completed", { method: "copy_link" });
+      toast({
+        title: "Profile link copied",
+        description: "Now share it with someone hiring or building.",
+      });
+    } catch {
+      toast({
+        title: "Copy failed",
+        description: "Please copy the URL from the address bar.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleNativeShare = async () => {
+    if (!("share" in navigator)) return;
+
+    try {
+      trackEvent("profile_share_clicked", { method: "native_share" });
+      await navigator.share({
+        title: "Riccardo Rizzo | Engineering Manager & Technical Lead",
+        text: "Check out this engineering leadership profile.",
+        url: profileShareUrl,
+      });
+      trackEvent("profile_share_completed", { method: "native_share" });
+    } catch {
+      // User dismissed the share sheet or the action failed.
+    }
+  };
+
   return (
     <section
       id="home"
@@ -43,6 +91,16 @@ export function Hero() {
               <Button size="lg" variant="outline" asChild>
                 <a href="mailto:rizzo.riccardo.83@gmail.com">Contact Me</a>
               </Button>
+              <Button size="lg" variant="outline" onClick={handleCopyProfileLink}>
+                <Copy className="h-4 w-4" />
+                Copy Profile Link
+              </Button>
+              {"share" in navigator ? (
+                <Button size="lg" variant="outline" onClick={handleNativeShare}>
+                  <Share2 className="h-4 w-4" />
+                  Share Profile
+                </Button>
+              ) : null}
             </div>
           </div>
 
