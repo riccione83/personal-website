@@ -1,9 +1,6 @@
 import { ExternalLink, Sparkles } from "lucide-react";
 
 export function NowBuilding() {
-  // Keep the "NEW" badge visible for a limited launch window.
-  const showNewBadge = new Date() < new Date("2026-05-01T00:00:00Z");
-
   return (
     <section id="now-building" className="py-6 md:py-8">
       <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
@@ -12,24 +9,19 @@ export function NowBuilding() {
             <div>
               <p className="mb-4 flex items-center gap-2 text-xs uppercase tracking-wide text-primary/80">
                 <Sparkles className="h-3.5 w-3.5" />
-                Currently Building
+                Featured Project
               </p>
               <h2 className="inline-flex items-center gap-2 text-lg font-semibold">
-                Tiny LLM
-                {showNewBadge ? (
-                  <span className="rounded-full border border-primary/30 bg-primary/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-primary">
-                    New
-                  </span>
-                ) : null}
+                tiny-llm
               </h2>
               <p className="mt-2 text-sm text-muted-foreground max-w-3xl">
-                A GPT-style model trained from scratch and adapted with LoRA
-                for chat, constrained answers, and summarisation workflows.
+                A dual-track AI project combining a 7B LoRA/QLoRA workflow with
+                grounded web QA and a local OpenAI-compatible serving layer.
               </p>
               <ul className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-xs text-muted-foreground">
-                <li>~190M parameters</li>
-                <li>LoRA SFT adapters</li>
-                <li>Daily micro-retrain loop</li>
+                <li>7B-centered pipeline with Qwen2.5-7B + LoRA/QLoRA</li>
+                <li>In-house training on consumer-grade hardware with reproducible runs</li>
+                <li>Grounded QA stack with web retrieval and confidence-gated routing</li>
               </ul>
             </div>
             <a

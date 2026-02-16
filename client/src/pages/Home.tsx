@@ -4,6 +4,7 @@ import { Navigation } from "@/components/layout/Navigation";
 import { Footer } from "@/components/layout/Footer";
 import { ScrollProgress } from "@/components/layout/ScrollProgress";
 import { Hero } from "@/components/sections/Hero";
+import { NowBuilding } from "@/components/sections/NowBuilding";
 import { SEO } from "@/components/seo/SEO";
 import { trackEvent } from "@/lib/analytics";
 
@@ -55,6 +56,7 @@ export default function Home() {
       <Navigation />
       <main className="flex-1">
         <Hero />
+        <NowBuilding />
 
         <Suspense fallback={<div className="h-screen"></div>}>
           <About />

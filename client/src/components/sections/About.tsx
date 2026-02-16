@@ -1,7 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { motion } from "framer-motion";
 import { SkillsGraph } from "./SkillsGraph";
-import { NowBuilding } from "./NowBuilding";
 
 export function About() {
   return (
@@ -58,7 +57,6 @@ export function About() {
         </div>
 
         <div className="w-full max-w-4xl">
-          <NowBuilding />
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
