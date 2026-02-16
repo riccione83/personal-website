@@ -120,6 +120,21 @@ export default function BlogArticlePage() {
                     ))}
                   </ul>
                 ) : null}
+                {section.images?.map((image, idx) => (
+                  <figure key={`${section.title}-image-${idx}`} className="my-6">
+                    <img
+                      src={image.src}
+                      alt={image.alt || `${section.title} image ${idx + 1}`}
+                      className="w-full rounded-xl border border-primary/10"
+                      loading="lazy"
+                    />
+                    {image.caption ? (
+                      <figcaption className="mt-2 text-sm text-muted-foreground text-center">
+                        {image.caption}
+                      </figcaption>
+                    ) : null}
+                  </figure>
+                ))}
                 {section.codeBlocks?.map((block, idx) => (
                   <pre key={`${section.title}-code-${idx}`}>
                     <code className={`language-${block.language}`}>
