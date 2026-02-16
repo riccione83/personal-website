@@ -55,6 +55,7 @@ export default function BlogArticlePage() {
           headline: article.title,
           description: article.excerpt,
           image: article.coverImage || "/images/riky_squared.jpg",
+          keywords: article.tags?.join(", "),
           datePublished: article.date,
           dateModified: article.date,
           author: {
@@ -96,6 +97,18 @@ export default function BlogArticlePage() {
             {article.title}
           </h1>
           <p className="mt-4 text-lg text-muted-foreground">{article.excerpt}</p>
+          {article.tags?.length ? (
+            <div className="mt-4 flex flex-wrap gap-2">
+              {article.tags.map((tag) => (
+                <span
+                  key={`${article.slug}-${tag}`}
+                  className="inline-flex items-center rounded-full border border-primary/20 bg-primary/5 px-2.5 py-1 text-xs font-medium text-primary"
+                >
+                  #{tag}
+                </span>
+              ))}
+            </div>
+          ) : null}
 
           {article.coverImage ? (
             <img

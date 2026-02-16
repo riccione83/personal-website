@@ -6,6 +6,7 @@ export interface BlogArticle {
   source: string;
   date: string;
   excerpt: string;
+  tags?: string[];
   coverImage?: string;
   originalUrl?: string;
   readTime?: string;
@@ -42,6 +43,7 @@ export const blogArticles: BlogArticle[] = [
     readTime: "4 min read",
     excerpt:
       "How the Tiny-LLM project evolved into a reproducible 0.5B pipeline, ready for practical local usage and LM Studio workflows.",
+    tags: ["LLM", "Tiny-LLM", "Model Training", "LM Studio", "MLOps"],
     coverImage:
       "https://media.licdn.com/dms/image/v2/D4E12AQFf4YWmj4S4Sw/article-cover_image-shrink_720_1280/B4EZxNtCJVGwAI-/0/1770830182364?e=2147483647&v=beta&t=ZSq4LgytCZrILeXv8d_D-pWsgr88CF8g3AONpGow_Ys",
     originalUrl:
@@ -236,6 +238,7 @@ export const blogArticles: BlogArticle[] = [
     readTime: "6 min read",
     excerpt:
       "A practical look at scaling from 0.5B to 7B and what changes when a local model starts behaving like a real assistant.",
+    tags: ["LLM", "7B Models", "Local AI", "Evaluation", "Inference"],
     coverImage:
       "https://media.licdn.com/dms/image/v2/D4D12AQF1cbtQwZiuBw/article-cover_image-shrink_720_1280/B4DZxX6GZjJEAI-/0/1771001380416?e=2147483647&v=beta&t=gZbVGnabRzP5XwGs1wN9NR_3VpyR6yd6H50zkAYq-EE",
     originalUrl:
@@ -634,6 +637,7 @@ export const blogArticles: BlogArticle[] = [
     readTime: "4 min read",
     excerpt:
       "A practical write-up on building, training, and adapting a GPT-style model from scratch on consumer hardware.",
+    tags: ["LLM", "PyTorch", "Instruction Tuning", "Consumer Hardware", "AI Engineering"],
     coverImage:
       "https://media.licdn.com/dms/image/v2/D4E12AQH7ynXhF-70aw/article-cover_image-shrink_720_1280/B4EZvXuyINGsAQ-/0/1768850928192?e=2147483647&v=beta&t=_GsrXa0gvbmcX1XHlv9CLwEC0XgK02XCRUOAMz4UZb4",
     originalUrl:

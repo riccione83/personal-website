@@ -1,6 +1,7 @@
 import { Footer } from "@/components/layout/Footer";
 import { Navigation } from "@/components/layout/Navigation";
 import { SEO } from "@/components/seo/SEO";
+import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { blogArticles } from "@/data/blog";
 import { Link } from "wouter";
@@ -52,6 +53,15 @@ export default function BlogPage() {
                 </CardHeader>
                 <CardContent>
                   <p className="text-muted-foreground">{article.excerpt}</p>
+                  {article.tags?.length ? (
+                    <div className="mt-4 flex flex-wrap gap-2">
+                      {article.tags.map((tag) => (
+                        <Badge key={`${article.slug}-${tag}`} variant="secondary">
+                          {tag}
+                        </Badge>
+                      ))}
+                    </div>
+                  ) : null}
                   <Link
                     href={`/blog/${article.slug}`}
                     className="mt-4 inline-flex items-center gap-2 text-primary hover:text-primary/80 transition-colors font-medium"
