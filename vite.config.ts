@@ -19,73 +19,76 @@ export default defineConfig({
     react(),
     runtimeErrorOverlay(),
     themePlugin(),
-    // Enable compression for production with lower threshold to compress more files
-    isProduction &&
-      viteCompression({
-        algorithm: "gzip",
-        ext: ".gz",
-        filter: /\.(js|mjs|json|css|html|svg|txt|xml)$/i,
-        threshold: 1024, // Compress files larger than 1kb
-        deleteOriginFile: false,
-        verbose: true,
-      }),
-    isProduction &&
-      viteCompression({
-        algorithm: "brotliCompress",
-        ext: ".br",
-        filter: /\.(js|mjs|json|css|html|svg|txt|xml)$/i,
-        threshold: 1024, // Compress files larger than 1kb
-        deleteOriginFile: false,
-        verbose: true,
-      }),
-    // Add more aggressive image optimization for production
-    isProduction &&
-      viteImagemin({
-        gifsicle: {
-          optimizationLevel: 7,
-          interlaced: false,
-        },
-        optipng: {
-          optimizationLevel: 7,
-        },
-        mozjpeg: {
-          quality: 75, // Lower quality for better compression
-          progressive: true,
-        },
-        pngquant: {
-          quality: [0.65, 0.8], // More aggressive compression
-          speed: 4,
-        },
-        svgo: {
-          plugins: [
-            {
-              name: "removeViewBox",
-              active: false,
+    ...(isProduction
+      ? [
+          // Enable compression for production with lower threshold to compress more files
+          viteCompression({
+            algorithm: "gzip",
+            ext: ".gz",
+            filter: /\.(js|mjs|json|css|html|svg|txt|xml)$/i,
+            threshold: 1024, // Compress files larger than 1kb
+            deleteOriginFile: false,
+            verbose: true,
+          }),
+          viteCompression({
+            algorithm: "brotliCompress",
+            ext: ".br",
+            filter: /\.(js|mjs|json|css|html|svg|txt|xml)$/i,
+            threshold: 1024, // Compress files larger than 1kb
+            deleteOriginFile: false,
+            verbose: true,
+          }),
+          // Add more aggressive image optimization for production
+          viteImagemin({
+            gifsicle: {
+              optimizationLevel: 7,
+              interlaced: false,
             },
-            {
-              name: "removeEmptyAttrs",
-              active: false,
+            optipng: {
+              optimizationLevel: 7,
             },
-            {
-              name: "cleanupIDs",
-              active: true,
+            mozjpeg: {
+              quality: 75, // Lower quality for better compression
+              progressive: true,
             },
-          ],
-        },
-        webp: {
-          quality: 75, // Lower quality for better compression
-        },
-      }),
+            pngquant: {
+              quality: [0.65, 0.8], // More aggressive compression
+              speed: 4,
+            },
+            svgo: {
+              plugins: [
+                {
+                  name: "removeViewBox",
+                  active: false,
+                },
+                {
+                  name: "removeEmptyAttrs",
+                  active: false,
+                },
+                {
+                  name: "cleanupIDs",
+                  active: true,
+                },
+              ],
+            },
+            webp: {
+              quality: 75, // Lower quality for better compression
+            },
+          }),
+        ]
+      : []),
     // Add visualization in non-CI builds
-    isProduction &&
-      process.env.CI !== "true" &&
-      visualizer({
-        open: false,
-        filename: "dist/stats.html",
-        gzipSize: true,
-        brotliSize: true,
-      }),
-  ].filter(Boolean),
+    ...(isProduction && process.env.CI !== "true"
+      ? [
+          visualizer({
+            open: false,
+            filename: "dist/stats.html",
+            gzipSize: true,
+            brotliSize: true,
+          }),
+        ]
+      : []),
+  ],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "client", "src"),
