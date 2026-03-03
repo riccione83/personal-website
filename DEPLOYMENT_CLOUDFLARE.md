@@ -13,7 +13,7 @@ This project is a static Vite site and can be deployed on Cloudflare Pages witho
 Use these exact values:
 
 - **Framework preset:** `Vite`
-- **Build command:** `npm run build`
+- **Build command:** `yarn install --frozen-lockfile && yarn run build`
 - **Build output directory:** `dist`
 - **Root directory:** `/`
 
@@ -60,8 +60,22 @@ If you fully migrate to Cloudflare Pages, disable that workflow to avoid deployi
 If needed:
 
 ```bash
-npm run build
+yarn install --frozen-lockfile
+yarn run build
 npx wrangler pages deploy dist --project-name personal-website
 ```
 
 (Requires Cloudflare login via `npx wrangler login`.)
+
+## GitHub Actions deploy
+
+This repository includes `.github/workflows/deploy-cloudflare.yml`.
+
+Required GitHub secrets:
+
+- `CLOUDFLARE_API_TOKEN`
+- `CLOUDFLARE_ACCOUNT_ID`
+
+Optional GitHub variable:
+
+- `CLOUDFLARE_PAGES_PROJECT_NAME` (defaults to `personal-website`)
