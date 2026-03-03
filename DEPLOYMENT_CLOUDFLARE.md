@@ -20,6 +20,7 @@ Use these exact values:
 Optional environment variable:
 
 - `NODE_VERSION=20`
+- `YARN_VERSION=1.22.22` (only if your Pages environment ignores `packageManager` and still picks Yarn 4)
 
 ## 3. SPA routing (important)
 
