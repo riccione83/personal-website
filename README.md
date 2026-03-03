@@ -50,6 +50,10 @@ This website is deployed to AWS using GitHub Actions. The deployment architectur
 - CloudFront distributions for CDN delivery
 - Route53 for DNS management
 
+### Cloudflare Pages Deployment
+
+You can also deploy this project on Cloudflare Pages. See [DEPLOYMENT_CLOUDFLARE.md](./DEPLOYMENT_CLOUDFLARE.md) for the exact build settings and DNS setup.
+
 ### Manual Deployment
 
 To manually deploy the website:
