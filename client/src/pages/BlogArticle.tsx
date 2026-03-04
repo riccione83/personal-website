@@ -5,14 +5,19 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { getArticleBySlug } from "@/data/blog";
 import { trackEvent } from "@/lib/analytics";
+import { buildBlogPostingSchema } from "@/lib/schema";
 import { ArrowLeft, Copy, ExternalLink, Share2 } from "lucide-react";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { Link, useRoute } from "wouter";
 
 export default function BlogArticlePage() {
   const [matched, params] = useRoute("/blog/:slug");
   const article = matched ? getArticleBySlug(params.slug) : undefined;
   const { toast } = useToast();
+  const blogPostingSchema = useMemo(
+    () => (article ? buildBlogPostingSchema(article) : null),
+    [article]
+  );
 
   useEffect(() => {
     if (!article) return;
@@ -107,28 +112,8 @@ export default function BlogArticlePage() {
         publishedTime={article.date}
         modifiedTime={article.date}
         author={article.author || "Riccardo Rizzo"}
-        jsonLd={{
-          "@context": "https://schema.org",
-          "@type": "BlogPosting",
-          headline: article.title,
-          description: article.excerpt,
-          image: article.coverImage || "/images/riky_squared.jpg",
-          keywords: article.tags?.join(", "),
-          datePublished: article.date,
-          dateModified: article.date,
-          author: {
-            "@type": "Person",
-            name: article.author || "Riccardo Rizzo",
-          },
-          mainEntityOfPage: {
-            "@type": "WebPage",
-            "@id": `https://www.riccardorizzo.eu/blog/${article.slug}`,
-          },
-          publisher: {
-            "@type": "Person",
-            name: "Riccardo Rizzo",
-          },
-        }}
+        jsonLd={blogPostingSchema}
+        jsonLdId={`blog-posting-${article.slug}`}
       />
       <Navigation />
       <main className="flex-1 pt-24 pb-10 md:pb-12">

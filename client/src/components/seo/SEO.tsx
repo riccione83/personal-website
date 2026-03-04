@@ -1,6 +1,6 @@
 import { useEffect } from "react";
-
-const SITE_URL = "https://www.riccardorizzo.eu";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { toAbsoluteUrl, type JsonLdSchema } from "@/lib/schema";
 
 interface SEOProps {
   title: string;
@@ -11,13 +11,8 @@ interface SEOProps {
   publishedTime?: string;
   modifiedTime?: string;
   author?: string;
-  jsonLd?: Record<string, unknown> | null;
-}
-
-function toAbsoluteUrl(value: string) {
-  if (value.startsWith("http://") || value.startsWith("https://")) return value;
-  const normalized = value.startsWith("/") ? value : `/${value}`;
-  return `${SITE_URL}${normalized}`;
+  jsonLd?: JsonLdSchema | null;
+  jsonLdId?: string;
 }
 
 function upsertMeta(
@@ -48,28 +43,6 @@ function upsertCanonical(url: string) {
   canonical.setAttribute("href", url);
 }
 
-function upsertJsonLd(jsonLd: Record<string, unknown> | null) {
-  const scriptId = "dynamic-seo-jsonld";
-  const existing = document.getElementById(scriptId);
-
-  if (!jsonLd) {
-    if (existing) existing.remove();
-    return;
-  }
-
-  const script =
-    existing ||
-    (() => {
-      const node = document.createElement("script");
-      node.id = scriptId;
-      node.type = "application/ld+json";
-      document.head.appendChild(node);
-      return node;
-    })();
-
-  script.textContent = JSON.stringify(jsonLd);
-}
-
 export function SEO({
   title,
   description,
@@ -80,6 +53,7 @@ export function SEO({
   modifiedTime,
   author,
   jsonLd = null,
+  jsonLdId = "dynamic-seo-jsonld",
 }: SEOProps) {
   useEffect(() => {
     const absoluteUrl = toAbsoluteUrl(path);
@@ -118,13 +92,10 @@ export function SEO({
     if (author) {
       upsertMeta("property", "article:author", author);
     }
-
-    upsertJsonLd(jsonLd);
   }, [
     author,
     description,
     image,
-    jsonLd,
     modifiedTime,
     path,
     publishedTime,
@@ -132,6 +103,5 @@ export function SEO({
     type,
   ]);
 
-  return null;
+  return <JsonLd schema={jsonLd} id={jsonLdId} debugLabel={path} />;
 }
-
